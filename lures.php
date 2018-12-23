@@ -31,9 +31,9 @@
         <link type="text/css" rel="stylesheet" href="css/style.css" />
 		
 		<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
-<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+		<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+		<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+		<!------ Include the above in your HEAD tag ---------->
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -348,7 +348,7 @@
             <!-- /container -->
         </div>
         <!-- /NAVIGATION -->
-
+		
         <!-- HOME -->
         <div id="home">
             <!-- container -->
@@ -363,6 +363,10 @@
                         </div>
                     </div>
                     <!-- /section-title -->
+					<div class="form-group col-md-12">
+						<div class="col-md-6 col-sm-6 text-right"><button type="submit" class="btn btn-success">Next</button></div>
+					</div>
+					
 					</br>
                     <div class="col-md-12">
                         <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -370,8 +374,7 @@
 						<link href="css/pageProduct.css" rel="stylesheet" >
 						<link href="css/pageProduct2.css" rel="stylesheet" />
 
-						<link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
-						<link rel="stylesheet" href="css/styleproduct.css"> <!-- Resource style -->
+					
 						<!------ Include the above in your HEAD tag ---------->
 							<script type="text/javascript">
 								$(document).ready(function() {
@@ -496,52 +499,14 @@
 							<?php 
 								}
 							?>
-							
-							
-						<div class="cd-cart-container empty">
-							<a href="#0" class="cd-cart-trigger">
-								Cart
-								<ul class="count"> <!-- cart items count -->
-									<li>0</li>
-									<li>0</li>
-								</ul> <!-- .count -->
-							</a>
-
-							<div class="cd-cart">
-								<div class="wrapper">
-									<header>
-										<h2>Cart</h2>
-										<span class="undo">Item removed. <a href="#0">Undo</a></span>
-									</header>
-									
-									<div class="body">
-										<ul>
-											<!-- products added to the cart will be inserted here using JavaScript -->
-										</ul>
-									</div>
-
-									<footer>
-										<a href="#0" class="checkout btn"><em>Checkout - $<span>0</span></em></a>
-									</footer>
-								</div>
-							</div> <!-- .cd-cart -->
-						</div> <!-- cd-cart-container -->
-							
-						<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-						<script>
-							if( !window.jQuery ) document.write('<script src="js/jquery-3.0.0.min.js"><\/script>');
-						</script>
-						<script src="js/main.js"></script> <!-- Resource jQuery -->
-
-
+						
+						
                     </div>
                 </div>
 				 <!-- row -->
                 <!-- /container -->
             </div>
             <!-- /HOME -->
-
-
 
             <!-- FOOTER -->
             <footer id="footer" class="section section-grey">
