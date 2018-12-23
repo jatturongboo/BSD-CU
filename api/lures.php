@@ -29,11 +29,22 @@
 		$rowsTotal = $rowTotal["total"];
 		}
 		$totalpage =  ceil($rowsTotal / $pageNumber);
+		
+		
+		$sqlType = "SELECT * FROM lure_type ";
+
+		$resultType = $Connect->query($sqlType);
+		while ($rowType = $resultType->fetch_assoc()) {
+		$rowsType[] = $rowType;
+		}
+		
+		
 		$output= '{
 		"result": {				
 				"total_size" : "'.$rowsTotal.'",
 				"total_page" : "'.$totalpage.'",
-				"items": '.json_encode($rows).'
+				"items": '.json_encode($rows).',
+				"lure_type": '.json_encode($rowsType).'
 			}
 		}';
 

@@ -365,108 +365,178 @@
                     <!-- /section-title -->
 					</br>
                     <div class="col-md-12">
-                        <form name='recommend' action="">
-                            <div class="form-group col-md-12">
-                                <label for="budget">งบประมาณ</label>
-                                <select class="input" name="budget" id="budget">
-                                    <option value="1">น้อยกว่า 2,500 บาท</option>
-                                    <option value="2">2,501 - 5,000 บาท</option>
-                                    <option value="3">5,001 - 7,500 บาท</option>
-                                    <option value="4">7,501 - 10,000 บาท</option>
-									<option value="5">มากกว่า 10,000 บาท</option>
-                                </select>
-                            </div>
-							</br>
-							<div class="form-group col-md-12">
-                                <label for="budget">มือข้างที่ถนัด</label>
-                                <select class="input" name="budget" id="budget">
-                                    <option value="1">ทั้งสองข้าง</option>
-                                    <option value="2">มือซ้าย</option>
-                                    <option value="3">มือขวา</option>
-                                </select>
-                            </div>
-							</br>
-                            <div class="form-group col-md-12">
-                                <label>เคยมีประสบการณ์ตกปลามาแล้วหรือไม่ ?</label>
-                                <div class="input-checkbox">
-                                    <input type="radio" name="experience" value="0" id="experience0" onclick="toggle('.myClass','.myClass1', this)"  >
-                                    <label class="font-weak" for="experience0">ยังไม่เคยตกปลามาก่อน</label> &nbsp;&nbsp;
-                                    <input type="radio" name="experience" value="1" id="experience1" onclick="toggle('.myClass1','.myClass', this)">
-                                    <label class="font-weak" for="experience1">มีประสบการณ์ตกปลามาบ้างแล้ว</label>
-                                </div>
-                            </div>
-							</br>
-                            <div class="form-group col-md-12 myClass1" style="display: none;">
-                                <label>ประเภทของแหล่งน้ำ</label>
-                                <div class="input-checkbox">
-                                    <input type="checkbox" name="fishing_grounds" value="น้ำตก" id="fishing_grounds0" >
-                                    <label class="font-weak" for="fishing_grounds0">น้ำตก1</label>
-                                    <input type="checkbox" name="fishing_grounds" value="บ่อตกปลา" id="fishing_grounds1" >
-                                    <label class="font-weak" for="fishing_grounds1">บ่อตกปลา</label>
-                                    <input type="checkbox" name="fishing_grounds" value="แม่น้ำ ลำคลองต่างๆ" id="fishing_grounds2" >
-                                    <label class="font-weak" for="fishing_grounds2">แม่น้ำ ลำคลองต่างๆ</label>
-									<input type="checkbox" name="fishing_grounds" value="แม่น้ำ ลำคลองต่างๆ" id="fishing_grounds3" >
-                                    <label class="font-weak" for="fishing_grounds3">ลำธาร</label>
-                                </div> 
-                            </div>
-							<script>
-							function toggle(classShow,classHide, obj) {
-								var $input = $(obj);
-								if ($input.prop('checked')){ 
-									$(classHide).hide();
-									$(classShow).show();  
-									};
+                        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+						<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+						<link href="css/pageProduct.css" rel="stylesheet" >
+						<link href="css/pageProduct2.css" rel="stylesheet" />
 
-							}
+						<link rel="stylesheet" href="css/reset.css"> <!-- CSS reset -->
+						<link rel="stylesheet" href="css/styleproduct.css"> <!-- Resource style -->
+						<!------ Include the above in your HEAD tag ---------->
+							<script type="text/javascript">
+								$(document).ready(function() {
+									$('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
+									$('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
+								});
 							</script>
-							<div class="form-group col-md-12 myClass" style="display: none;">
-                                <label>ประเภทของแหล่งน้ำ</label>
-                                <div class="input-checkbox">
-                                    <input type="checkbox" name="fishing_grounds" value="น้ำตก" id="fishing_grounds0" >
-                                    <label class="font-weak" for="fishing_grounds0">น้ำตก2</label>
-                                    <input type="checkbox" name="fishing_grounds" value="บ่อตกปลา" id="fishing_grounds1" >
-                                    <label class="font-weak" for="fishing_grounds1">บ่อตกปลา</label>
-                                    <input type="checkbox" name="fishing_grounds" value="แม่น้ำ ลำคลองต่างๆ" id="fishing_grounds2" >
-                                    <label class="font-weak" for="fishing_grounds2">แม่น้ำ ลำคลองต่างๆ</label>
-									<input type="checkbox" name="fishing_grounds" value="แม่น้ำ ลำคลองต่างๆ" id="fishing_grounds3" >
-                                    <label class="font-weak" for="fishing_grounds3">ลำธาร</label>
-                                </div> 
-                            </div>
+
+							<?php 
 							
-							</br>
-                            <div class="form-group col-md-12">
-                                <label>ประเภทปลา</label>
-                                <select multiple="multiple" size="10" name="species_fish[]">
-                                    <option value="option1">ปลากราย</option>
-                                    <option value="option2">ปลาสลาด</option>
-                                    <option value="option3">ปลาตะโกก</option>
-                                    <option value="option4">ปลายี่สก</option>
-                                    <option value="option5">ปลาตะเพียนขาว</option>
-                                    <option value="option7">ปลาไน</option>
-                                    <option value="option8">ปลาซ่ง</option>
-                                    <option value="option9">ปลาเฉา</option>
-                                    <option value="option10">ปลาค้าว</option>
-									<option value="option11">ปลาสวาย</option>
-									<option value="option12">ปลาสร้อยนกเขา</option>
-									<option value="option13">ปลาเสือตอ</option>
-									<option value="option14">ปลาแรด</option>
-									<option value="option15">ปลาช่อน</option>
-									<option value="option16">ปลาชะโด</option>
-									<option value="option17">ปลากระพงขาว</option>
-									<option value="option18">ปลานิล</option>
-									<option value="option19">ปลากระสูบ</option>
-									<option value="option20">ปลาเวียน</option>
-									<option value="option21">ปลากดคัง</option>									
-                                </select>
-                            </div>
-                            <div class="form-group col-md-12">
-                                <div class="col-md-6 col-sm-6"><button type="reset" class="btn btn-warning">Clear</button></div>
-                                <div class="col-md-6 col-sm-6 text-right"><button type="submit" class="btn btn-success">Next</button></div>
-                            </div>
-                        </form>
+							$pageNo = 1;
+							if (!empty($_GET['page'])) {
+								$pageNo = $_GET['page'];
+							}
+							
+							$url = 'http://localhost/Fishing_Equipment_Store/api/lures.php?page='.$pageNo;
+							$content = file_get_contents($url);	
+							$json = json_decode($content);
+							
+							foreach ($json as $value) { 
+							
+							?>
+						<div id="sidebar">
+
+							<h3>CATEGORIES</h3>
+							<div class="checklist categories">
+								<ul>
+								<?
+								foreach ($value->lure_type as $luretype) {
+								?>
+									<li><a href=""><span></span><?=$luretype->lure_name_en?></a></li>
+								<?
+								}
+								?>
+								</ul>
+							</div>
+							
+
+						</div>
+
+						<div id="grids">
+							<div class="container" > 
+								<div class="well well-sm">
+									<strong>Category Title</strong>
+									<div class="btn-group">
+										<a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
+										</span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
+											class="glyphicon glyphicon-th"></span>Grid</a>
+									</div>
+								</div>
+								<div id="products" class="row list-group">
+								<?php
+									$rownum = 1;
+									foreach ($value->items as $product) {
+									$ItemID = $product->lure_id;		
+								?>
+							
+									<div class="item  col-xs-4 col-lg-4"  >
+										<div class="thumbnail">
+											<img class="group list-group-image" src="<?=$product->image;?>" alt=""  onclick="location.href='detail.php?id=<?=$ItemID?>';" />
+											<div class="caption">
+												<h4 class="group inner list-group-item-heading">
+												<?
+													echo $product->model;
+												?>
+												</h4>
+												<p class="group inner list-group-item-text">
+												<?
+													echo $product->description;
+												?>
+												<br>
+												</p>
+												<div class="row">
+													<div class="col-xs-12 col-md-6">
+														<p class="lead">
+														<?
+															echo "฿".$product->price;
+														?>
+														</p>
+													</div>
+													<div class="col-xs-12 col-md-6">
+														<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>" href="#0" >Add to cart</a>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+									
+								</a>
+									<?php } ?>
+								</div><!-- <div id="products" class="row list-group">-->
+								<form name="form1" method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
+								<div align="right">
+									<nav aria-label="Page navigation example">
+										<ul class="pagination justify-content-center">
+											<li class="page-item <?=($pageNo == 1)?"disabled":"";?>">
+												<a class="page-link" <?=($pageNo == 1)?"":'href="lures.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
+											</li>
+											<?
+											//echo $value->total_page;
+											for($i =1; $i <= 3; $i++) {
+												if($i <= $value->total_page) {
+													
+											?>
+											<li class="page-item <?=($pageNo == $i)?"active":""; ?>">
+												<a class="page-link" href="lures.php?page=<?=$i?>"><?=$i?></a>
+											</li>
+											<?php
+												}
+											}
+											?>
+											<li class="page-item <?=($pageNo == $value->total_page)?"disabled":"";?>">
+												<a class="page-link"<?=($pageNo == $value->total_page)?"":'href="lures.php?page='.($pageNo+1).'"';?>>Next</a>
+											</li>
+										</ul>
+									</nav>
+								</div>
+								</form>
+
+							</div>
+						</div>
+							<?php 
+								}
+							?>
+							
+							
+						<div class="cd-cart-container empty">
+							<a href="#0" class="cd-cart-trigger">
+								Cart
+								<ul class="count"> <!-- cart items count -->
+									<li>0</li>
+									<li>0</li>
+								</ul> <!-- .count -->
+							</a>
+
+							<div class="cd-cart">
+								<div class="wrapper">
+									<header>
+										<h2>Cart</h2>
+										<span class="undo">Item removed. <a href="#0">Undo</a></span>
+									</header>
+									
+									<div class="body">
+										<ul>
+											<!-- products added to the cart will be inserted here using JavaScript -->
+										</ul>
+									</div>
+
+									<footer>
+										<a href="#0" class="checkout btn"><em>Checkout - $<span>0</span></em></a>
+									</footer>
+								</div>
+							</div> <!-- .cd-cart -->
+						</div> <!-- cd-cart-container -->
+							
+						<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+						<script>
+							if( !window.jQuery ) document.write('<script src="js/jquery-3.0.0.min.js"><\/script>');
+						</script>
+						<script src="js/main.js"></script> <!-- Resource jQuery -->
+
 
                     </div>
                 </div>
+				 <!-- row -->
                 <!-- /container -->
             </div>
             <!-- /HOME -->
