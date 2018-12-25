@@ -34,39 +34,58 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <div class="header-btns-icon">
                                         <i class="fa fa-shopping-cart"></i>
-                                        <span class="qty"><?php if (!empty($_SESSION["itemcart"])) { echo $_SESSION["itemcart"]; }
+                                        <span class="qty"><?php if (!empty($_SESSION["itemcart"])){ echo $_SESSION["itemcart"]; }
 										?></span>
 
                                     </div>
                                     <strong class="text-uppercase">My Cart:</strong>
                                     <br>
-                                    <span>35.20$</span>
+                                    <span><?php echo (!empty($_SESSION["sumPrice"])?$_SESSION["sumPrice"]:"0" )?>$</span>
+									
                                 </a>
                                 <div class="custom-menu">
                                     <div id="shopping-cart">
                                         <div class="shopping-cart-list">
-                                            <div class="product product-widget">
-                                                <div class="product-thumb">
-                                                    <img src="./img/thumb-product01.jpg" alt="">
-                                                </div>
-                                                <div class="product-body">
-                                                    <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-                                                    <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                                </div>
-                                                <button class="cancel-btn"><i class="fa fa-trash"></i></button>
-                                            </div>
-                                            <div class="product product-widget">
-                                                <div class="product-thumb">
-                                                    <img src="./img/thumb-product01.jpg" alt="">
-                                                </div>
-                                                <div class="product-body">
-                                                    <h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
-                                                    <h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
-                                                </div>
-                                                <button class="cancel-btn"><i class="fa fa-trash"></i></button>
-                                            </div>
+										<?php										
+										if (!empty($_SESSION["itemcartID"])){
+											$_SESSION["itemcart"] = 0;
+											$sumPrice = 0;
+											$arr = array_count_values($_SESSION["itemcartID"]);
+											
+											foreach ($arr as $key => $value) {
+												
+												$url2 = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$key;
+												$content2 = file_get_contents($url2);	
+												$json2 = json_decode($content2);												
+												$_SESSION["itemcart"] += $value;
+												foreach ($json2 as $value2) {
+													$rownum = 1;
+													foreach ($value2->items as $product2) {	
+													$sumPrice += ($product2->price* $value);												
+													$_SESSION["sumPrice"] = $sumPrice;
+										?>
+												<div class="product product-widget">
+												  <div class="product-body">
+														<h3 class="product-price">฿<?echo $product2->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
+														<h2 class="product-name"><a href="#"><?echo $product2->model; ?></a></h2>
+													</div>
+													<?
+														if (!empty($_GET['page'])) {
+															$urldel .= "&page=".$_GET['page'];
+														}
+													?>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+												</div>
+										<?php
+													}
+												}
+											}
+										}
+										?>
+											
                                         </div>
-                                        <div class="shopping-cart-btns">
+                                        
+										<div class="shopping-cart-btns">
                                             <button class="main-btn" onclick="location.href='viewCart.php'">View Cart</button>
                                             <button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
                                         </div>

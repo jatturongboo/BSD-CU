@@ -42,36 +42,62 @@ require("AddToCart.php");
 													<th style="width:22%" class="text-center">Subtotal</th>
 													<th style="width:10%"></th>
 												</tr>
-											</thead>
+											</thead>										
 											<tbody>
+											<?
+											if (!empty($_SESSION["itemcartID"])){
+												$sumPrice = 0;
+												$arr = array_count_values($_SESSION["itemcartID"]);
+											
+												foreach ($arr as $key => $value) {
+													
+													$url2 = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$key;
+													$content2 = file_get_contents($url2);	
+													$json2 = json_decode($content2);
+												
+													foreach ($json2 as $value2) {
+														$rownum = 1;
+														foreach ($value2->items as $product2){
+														$sumPrice += ($product2->price * $value);												
+														
+											?>
 												<tr>
 													<td data-th="Product">
 														<div class="row">
 															<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
 															<div class="col-sm-10">
-																<h4 class="nomargin">Product 1</h4>
-																<p>Quis aute iure reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Lorem ipsum dolor sit amet.</p>
+																<h4 class="nomargin"><?echo $product2->model; ?></h4>
+																<p><?=$product2->description;?></p>
 															</div>
 														</div>
 													</td>
-													<td data-th="Price">$1.99</td>
+													<td data-th="Price">฿<?=$product2->price?></td>
 													<td data-th="Quantity">
-														<input type="number" class="form-control text-center" value="1">
+														<input type="number" class="form-control text-center" value="<?=$value?>">
 													</td>
-													<td data-th="Subtotal" class="text-center">1.99</td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPrice?></td>
 													<td class="actions" data-th="">							
-														<button class="btn btn-danger btn-sm"><i class="fa fa-trash-o"></i></button>								
+														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>'"><i class="fa fa-trash-o"></i></button>								
 													</td>
-												</tr>
+												</tr>	
+																								
+											<?php
+														}
+													}
+												}
+											}
+											?>
+												
+												
 											</tbody>
 											<tfoot>
 												<tr class="visible-xs">
-													<td class="text-center"><strong>Total 1.99</strong></td>
+													<td class="text-center"><strong>Total <?=$sumPrice;?></strong></td>
 												</tr>
 												<tr>
 													<td><a href="#" class="btn btn-warning"  onclick="window.history.go(-1); return false;"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
 													<td colspan="2" class="hidden-xs"></td>
-													<td class="hidden-xs text-center"><strong>Total $1.99</strong></td>
+													<td class="hidden-xs text-center"><strong>Total <?=$sumPrice;?></strong></td>
 													<td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
 												</tr>
 											</tfoot>
