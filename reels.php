@@ -177,7 +177,7 @@ include("AddToCartReels.php");
 								
 										<div class="item col-xs-4 col-lg-4 "  >
 											<div class="thumbnail">
-												<img class="group list-group-image" src="<?=$product->Images;?>"  alt=""  onclick=" window.open('detail.php?id=<?=$ItemID?>','_blank');" />
+												<img class="group list-group-image" src="<?=$product->Images;?>"  alt=""  onclick=" window.open('detailreels.php?id=<?=$ItemID?>','_blank');" />
 												<div class="caption">
 													<h4 class="group inner list-group-item-heading">
 													<?

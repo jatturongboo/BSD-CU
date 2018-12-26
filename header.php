@@ -48,6 +48,10 @@
 											$sumAllqty +=count($_SESSION["itemcartID_Reels"]);
 										}
 										
+										if (!empty($_SESSION["itemcartID_rod"])){
+											$sumAllqty +=count($_SESSION["itemcartID_rod"]);
+										}
+										
 										?>
                                         <span class="qty"><?=$sumAllqty?></span>
 
@@ -160,6 +164,44 @@
 												  <div class="product-body">
 														<h3 class="product-price">฿<?echo $productReels->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
 														<h2 class="product-name"><a href="#"><?echo $productReels->Model; ?></a></h2>
+													</div>
+													<?
+														if (!empty($_GET['page'])) {
+															$urldel .= "&page=".$_GET['page'];
+														}
+													?>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+												</div>
+										<?php
+													}
+												}
+											}
+										}
+										?>
+										
+										<?php											
+										if (!empty($_SESSION["itemcartID_rod"])){
+											
+											$arrReels = array_count_values($_SESSION["itemcartID_rod"]);
+											
+											foreach ($arrReels as $key => $value) {												
+												$urlrod = $REQUEST_URI.'api/rodDetail.php?id='.$key;
+												//echo $urlrod;
+												$contentrod = file_get_contents($urlrod);	
+												$jsonrod = json_decode($contentrod);
+												foreach ($jsonrod as $valuerod) {
+													$rownum = 1;
+													foreach ($valuerod->items as $productrod) {	
+													$sumPrice += ($productrod->price* $value);												
+													$_SESSION["sumPrice"] = $sumPrice;
+										?>
+												<div class="product product-widget">
+													<div class="product-thumb">
+														<img src="<?=$productrod->image;?>" alt="">
+													</div>
+												  <div class="product-body">
+														<h3 class="product-price">฿<?echo $productrod->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
+														<h2 class="product-name"><a href="#"><?echo $productrod->Model; ?></a></h2>
 													</div>
 													<?
 														if (!empty($_GET['page'])) {

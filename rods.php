@@ -1,6 +1,6 @@
 <?php
 require("conf/config_Session.php");
-include("AddToCartline.php");
+include("AddToCartrod.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -183,7 +183,7 @@ include("AddToCartline.php");
 								
 										<div class="item col-xs-4 col-lg-4 "  >
 											<div class="thumbnail">
-												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detail.php?id=<?=$ItemID?>','_blank');" />
+												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detailrods.php?id=<?=$ItemID?>','_blank');" />
 												<div class="caption">
 													<h4 class="group inner list-group-item-heading">
 													<?
