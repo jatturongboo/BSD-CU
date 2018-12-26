@@ -45,38 +45,39 @@ require("conf/config_Session.php");
 																		
 								});
 							</script>
-						<!------ Include the above in your HEAD tag ---------->
-							<?php 
-/* 									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+						
+							<?php									
+								if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checkline_type'])) {
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
 											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
+											unset($_SESSION['checkline_type'][$key]);
 										}
 									}
 									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {										
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+										if (!empty($_SESSION['checkline_type']) && $_GET['chk'] == 'unChecked') {										
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
 											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											$_SESSION["checkline_type"][]= $_GET['line_type'];
 										}else{										
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											if (!empty($_GET['line_type'])) {
+												$_SESSION["checkline_type"][]= $_GET['line_type'];
 											}
 										}
-										
 									}
 									
-								foreach($_SESSION['checklures_type'] as $key_type => $value_type){
-									$txt_type .= "".$value_type."|";
+								if(!empty($_SESSION['checkline_type'])){
+									foreach($_SESSION['checkline_type'] as $key_type => $value_type){
+										$txt_type .= "".$value_type."|";
+									}
 								}
-									 */
+									
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&session='.$txt_type;
-							
+							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&session_line_type='.$txt_type;
+							echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {			
@@ -88,51 +89,44 @@ require("conf/config_Session.php");
 									<ul>
 									<? 																	
 									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+										if (!empty($_SESSION['checkline_type'])) {
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
 											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
+											unset($_SESSION['checkline_type'][$key]);
 										}
 									}
 									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
+										if (!empty($_SESSION['checkline_type']) && $_GET['chk'] == 'unChecked') {
 											//echo "1";
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
 											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											$_SESSION["checkline_type"][]= $_GET['line_type'];
 										}else{
 											//echo "2";
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											if (!empty($_GET['line_type'])) {
+												$_SESSION["checkline_type"][]= $_GET['line_type'];
 											}
 										}
 									}
 
-									if (!empty($valuelures->lure_type)) {
-											foreach ($valuelures->lure_type as $luretype) {
+									if (!empty($valuelures->line_type)) {
+											foreach ($valuelures->line_type as $linetype) {
 												$checked = "unChecked";
-												if (!empty($_SESSION['checklures_type'])){
-														$keysearchchk=array_search($luretype->lure_type,$_SESSION['checklures_type']);											
+												if (!empty($_SESSION['checkline_type'])){
+														$keysearchchk=array_search($linetype->line_type_id,$_SESSION['checkline_type']);											
 														
 														if($keysearchchk!==false){
 															$checked = "checked";
 													}
 												}											
-													$urlcheckbox = "location.href='lines.php?lures_type=".$luretype->lure_type."&chk=".$checked."';";
+													$urlcheckbox = "location.href='lines.php?line_type=".$linetype->line_type_id."&chk=".$checked."';";
 											?>
 										<li>
-												<label class="customcheck"><?=$luretype->lure_name_en?>										
-												<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+												<label class="customcheck"><?=$linetype->line_type_name?>										
+												<input type="checkbox" class="custom-control-input" id="Check<?=$linetype->line_type?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
 												  <span class="checkmark"></span>
 												</label>
-												
-										<font size="2">
-											<p><?=$luretype->lure_name_th?></p>
-											<div id="collapse<?=$luretype->lure_type?>" style="display:none">
-											<p><?=$luretype->description?></p>
-											</div>
-											<a href="#collapse<?=$luretype->lure_type?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
-										</font>
+											
 										</li>
 									<? 
 										}
@@ -240,7 +234,7 @@ require("conf/config_Session.php");
 															}
 															$urlAdd = "location.href='lines.php?cart=1&id=".$ItemID."".$urlPage."';";
 															?>
-															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก<?=$ItemID?> </a>
+															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
 														
 													</div>

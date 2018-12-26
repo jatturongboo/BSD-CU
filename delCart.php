@@ -1,6 +1,5 @@
-<?
-	
-
+<?	
+	require("conf/config_Session.php");
     $key=array_search($_GET['delID'],$_SESSION['itemcartID_lures']);
 
     if($key!==false)

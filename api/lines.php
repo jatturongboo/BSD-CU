@@ -1,5 +1,4 @@
 <?
-			
 	header("Access-Control-Allow-Origin: *");
 	header("Access-Control-Allow-Headers: access");
 	header("Access-Control-Allow-Methods: GET,POST");
@@ -9,6 +8,8 @@
 	mysqli_set_charset($Connect,"utf8");
 	$pageNumber = 6;
 	$sqlluresWhere ="";
+	$sqlluresfish = "";
+	$sqlfishfilter = "";
 		$start = 0;
 		$end = $pageNumber;
 		if (!empty($_GET['page'])) {
@@ -17,45 +18,58 @@
 		}
 		$sqllures = "SELECT * FROM `lines` ";
 		$sqllures .= "where 1=1 ";
-/* 		if (!empty($_GET['session'])) {
-			$arr = explode("|",$_GET['session']);
-			$sqlluresWhere = " AND lure_type in ( ";			
+		if (!empty($_GET['session_line_type'])) {
+			$arr = explode("|",$_GET['session_line_type']);
+			$sqlluresWhere = " AND line_type_id in ( ";			
 			foreach( $arr as $key3 => $value3){
 				if (!empty($value3))
 				$sqlluresWhere .= "'".$value3."',";
 			}
-			
 			$sqlluresWhere .= "'-99' ) ";
-		} */
-		//$sqllures .= $sqlluresWhere;
+		}
+		
+		if (!empty($_GET['sessionfish'])) {
+			$arrfish = explode("|",$_GET['sessionfish']);
+			$sqlluresWherefish = " AND fish_id in ( ";			
+			foreach( $arrfish as $keyfish => $valuefish){
+				if (!empty($valuefish))
+				$sqlluresWherefish .= "'".$valuefish."',";
+			}			
+			$sqlluresWherefish .= "'-99' ) ";
+			$sqlfishfilter = " AND lure_type in (SELECT lure_type_id FROM fish_type_ref where 1=1 " .$sqlluresWherefish .")"; 
+		}else{
+			$sqlfishfilter = " AND line_type_id = 1 AND size between 1.5 and 2.00";
+		}
+		
+		$sqllures .= $sqlluresWhere;
+		$sqllures .= $sqlfishfilter;
 		$sqllures .= " limit ". $start.",".$end;
-	
+		//echo $sqllures;
 		$result = $Connect->query($sqllures);
 		while ($rowlures = $result->fetch_assoc()) {
-		$rowlines[] = $rowlures;
+		$rowluress[] = $rowlures;
 		}
 	   
-		$sqlluresTotal = "SELECT count(line_id) as total FROM `lines` where 1=1 ". $sqlluresWhere;
-		
+		$sqlluresTotal = "SELECT count(line_id) as total FROM `lines` where 1=1 ". $sqlluresWhere ." ".$sqlfishfilter;
 		$resultTotal = $Connect->query($sqlluresTotal);
 		while ($rowTotal = $resultTotal->fetch_assoc()) {
 			$rowsTotal = $rowTotal["total"];
 		}
 		$totalpage =  ceil($rowsTotal / $pageNumber);
-/* 		$sqlluresType = "SELECT * FROM lure_type ";
+		$sqlluresType = "SELECT * FROM line_type ";
 
 		$resultType = $Connect->query($sqlluresType);
-		while ($rowType = $resultType->fetch_assoc()) {
-		$rowsType[] = $rowType;
-		} */
-		
-		if (!empty($rowlines)) {
+		while ($rowType = $resultType->fetch_assoc()) {			
+				$rowsType[] = $rowType;
+
+		}
+		if (!empty($rowluress)) {
 			$output2= '{
 				"result": {				
 						"total_size" : "'.$rowsTotal.'",
 						"total_page" : "'.$totalpage.'",
-						"items": '.json_encode($rowlines).',					
-						"sqllures":'.json_encode($sqllures).'			
+						"items": '.json_encode($rowluress).',
+						"line_type": '.json_encode($rowsType).'
 					}
 				}';
 		}
@@ -63,8 +77,8 @@
 			$output2= '{
 				"result": {				
 						"total_size" : "'.$rowsTotal.'",
-						"total_page" : "'.$totalpage.'",				
-						"sqllures":'.json_encode($sqllures).'			
+						"total_page" : "'.$totalpage.'",						
+						"line_type": '.json_encode($rowsType).'	
 					}
 				}';
 		}
