@@ -57,7 +57,7 @@ include("AddToCartlures.php");
 										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {										
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
 											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+												$_SESSION["checklures_type"][]= $_GET['lures_type'];
 										}else{										
 											if (!empty($_GET['lures_type'])) {
 												$_SESSION["checklures_type"][]= $_GET['lures_type'];
@@ -84,7 +84,7 @@ include("AddToCartlures.php");
 								$pageNo = $_GET['page'];
 							}							
 							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type='.$txt_type.'&sessionfish='.$txt_type_fish;
-							echo $urlget;
+							//echo $urlget;
 
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
@@ -172,53 +172,48 @@ include("AddToCartlures.php");
 														
 							<h4>ประเภทลักษณะการใช้งาน</h4>
 							<ul>
-									<? 																	
-									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
+									<? 						
+									
+									if($_GET['chk']== "checked"){ ///if($_GET['chk']== "checked"){ Check ว่า กดมาหรือป่าว ex URL :::: lures.php?lures_type=1&chk=Checked
+										if (!empty($_SESSION['checklures_type'])) { // Check ว่ามี Session หรือป่าว 
+											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);// เอา  $_GET['lures_type'] ไปหาใน Session ว่ามีไหม ?
+											if($key!==false){ //คือถ้ามีจะ unset Session ตาม Key
+												unset($_SESSION['checklures_type'][$key]);
+											}
 										}
 									}
-									else {
+									else { //ถ้าเป็น unChecked แสดงว่ากดเลือก   lures.php?lures_type=1&chk=unChecked
 										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
-										}else{
+											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);// เอา  $_GET['lures_type'] ไปหาใน Session ว่ามีไหม ?
+											if($key===false){ //ถ้าไม่มีก็เอาไปเก็บใน  Session
+												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											}
+										}else{//อันนี้ดัก Case อื่นๆ ที่ ไม่ได้ตก
 											if (!empty($_GET['lures_type'])) {
 												$_SESSION["checklures_type"][]= $_GET['lures_type'];
 											}
 										}
 									}
 
-									foreach ($valuelures->lure_type2 as $luretype) {
-										$checked = "unChecked";
+									foreach ($valuelures->lure_type2 as $luretype) { //วน loop ตาม  Api http://localhost/Fishing_Equipment_Store/api/lures.php?page=1
+										$checked = "unChecked"; //เอาไว้ติ๊ก check box
 										if (!empty($_SESSION['checklures_type'])){ 
-												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
-												
+												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);
 												if($keysearchchk!==false){
 													$checked = "checked";
-											}
+												}
 										}											
 											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
 									?>
 										<li>
-										<label class="customcheck"><?=$luretype->lure_name_th?>										
-										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
-										  <span class="checkmark"></span>
-										</label>
+											<label class="customcheck"><?=$luretype->lure_name_th?>										
+											<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+											  <span class="checkmark"></span>
+											</label>
 										</li>
 									<? } ?>
 								</ul>					
-							
-								<font size="2">									
-									<div id="collapse<?=$luretype->lure_type_id?>" style="display:none">
-									<p><?=$luretype->description?></p>
-									</div>
-									<a href="#collapse<?=$luretype->lure_type_id?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
-								</font>
-														<!------ Include Read More ---------->
+							<!------ Include Read More ---------->
 							<script>
 								$(document).ready(function () {
 									$('.nav-toggle').click(function () {

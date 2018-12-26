@@ -78,7 +78,7 @@ include("AddToCartline.php");
 								$pageNo = $_GET['page'];
 							}							
 							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&session_line_type='.$txt_type;
-							echo $urlget;
+							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {			
