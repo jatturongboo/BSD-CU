@@ -164,7 +164,7 @@ include("AddToCartrod.php");
 										</div>										
 									</div>
 									<?
-										if (!empty($valuelures->items)) {
+										if (!empty($valuelures->items) && 1==2) {
 											$urllines = "location.href='reels.php';";
 									?>
 									
