@@ -76,7 +76,7 @@ include("AddToCartReels.php");
 								$pageNo = $_GET['page'];
 							}							
 							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type;
-							echo $urlget;
+							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {					

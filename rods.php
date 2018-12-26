@@ -65,9 +65,10 @@ include("AddToCartline.php");
 										}
 										
 									}
-									
-								foreach($_SESSION['checkrods_type'] as $key_type => $value_type){
-									$txt_type .= "".$value_type."|";
+								if (!empty($_SESSION['checkrods_type'])) {	
+									foreach($_SESSION['checkrods_type'] as $key_type => $value_type){
+										$txt_type .= "".$value_type."|";
+									}
 								}
 									
 							$pageNo = 1;
