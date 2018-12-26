@@ -34,8 +34,7 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <div class="header-btns-icon">
                                         <i class="fa fa-shopping-cart"></i>
-                                        <span class="qty"><?php if (!empty($_SESSION["itemcart"])){ echo $_SESSION["itemcart"]; }
-										?></span>
+                                        <span class="qty"><?=count($_SESSION["itemcartID"])?></span>
 
                                     </div>
                                     <strong class="text-uppercase">My Cart:</strong>
@@ -47,17 +46,14 @@
                                     <div id="shopping-cart">
                                         <div class="shopping-cart-list">
 										<?php										
-										if (!empty($_SESSION["itemcartID"])){
-											$_SESSION["itemcart"] = 0;
+										if (!empty($_SESSION["itemcartID"])){											
 											$sumPrice = 0;
 											$arr = array_count_values($_SESSION["itemcartID"]);
 											
-											foreach ($arr as $key => $value) {
-												
+											foreach ($arr as $key => $value) {												
 												$url2 = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$key;
 												$content2 = file_get_contents($url2);	
-												$json2 = json_decode($content2);												
-												$_SESSION["itemcart"] += $value;
+												$json2 = json_decode($content2);
 												foreach ($json2 as $value2) {
 													$rownum = 1;
 													foreach ($value2->items as $product2) {	

@@ -13,7 +13,6 @@
 		$url .= "?page=".$_GET['page'];
 	}
 	if (empty($_SESSION["itemcartID"])){
-		$_SESSION["itemcart"] = 0;
 		$_SESSION["sumPrice"] =0;
 	}
 	header("Location: " . "http://" . $_SERVER['HTTP_HOST'].$url);

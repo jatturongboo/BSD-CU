@@ -74,7 +74,7 @@ include("AddToCartlures.php");
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = 'http://localhost/Fishing_Equipment_Store/api/lures.php?page='.$pageNo.'&session='.$txt_type;
+							$urlget = 'http://localhost/Fishing_Equipment_Store/api/lines.php?page='.$pageNo.'&session='.$txt_type;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {					
@@ -115,7 +115,7 @@ include("AddToCartlures.php");
 													$checked = "checked";
 											}
 										}											
-											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type."&chk=".$checked."';";
+											$urlcheckbox = "location.href='lines.php?lures_type=".$luretype->lure_type."&chk=".$checked."';";
 									?>
 										<li>
 										<label class="customcheck"><?=$luretype->lure_name_en?>										
@@ -230,7 +230,7 @@ include("AddToCartlures.php");
 															if (!empty($_GET['page'])) {
 																$urlPage .= "&page=".$_GET['page'];
 															}
-															$urlAdd = "location.href='lures.php?cart=".$product->price."&id=".$ItemID.$urlPage."';";
+															$urlAdd = "location.href='lines.php?cart=".$product->price."&id=".$ItemID.$urlPage."';";
 															?>
 															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
@@ -258,7 +258,7 @@ include("AddToCartlures.php");
 										<nav aria-label="Page navigation example">
 											<ul class="pagination justify-content-center">
 												<li class="page-item <?=($pageNo == 1)?"disabled":"";?>">
-													<a class="page-link" <?=($pageNo == 1)?"":'href="lures.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
+													<a class="page-link" <?=($pageNo == 1)?"":'href="lines.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
 												</li>
 												<?
 												//echo $value->total_page;
@@ -267,14 +267,14 @@ include("AddToCartlures.php");
 														
 												?>
 												<li class="page-item <?=($pageNo == $i)?"active":""; ?>">
-													<a class="page-link" href="lures.php?page=<?=$i?>"><?=$i?></a>
+													<a class="page-link" href="lines.php?page=<?=$i?>"><?=$i?></a>
 												</li>
 												<?php
 													}
 												}
 												?>
 												<li class="page-item <?=($pageNo == $valuelures->total_page)?"disabled":"";?>">
-													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="lures.php?page='.($pageNo+1).'"';?>>Next</a>
+													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="lines.php?page='.($pageNo+1).'"';?>>Next</a>
 												</li>
 											</ul>
 										</nav>

@@ -15,9 +15,9 @@
 			  $start = ($_GET['page'] - 1) * $pageNumber ; 
 			  $end = $pageNumber;
 		}
-		$sqllures = "SELECT * FROM lures ";
-		$sqllures .= "where qty > 0 ";
-		if (!empty($_GET['session'])) {
+		$sqllures = "SELECT * FROM `lines` ";
+		$sqllures .= "where 1=1 ";
+/* 		if (!empty($_GET['session'])) {
 			$arr = explode("|",$_GET['session']);
 			$sqlluresWhere = " AND lure_type in ( ";			
 			foreach( $arr as $key3 => $value3){
@@ -26,8 +26,8 @@
 			}
 			
 			$sqlluresWhere .= "'-99' ) ";
-		}
-		$sqllures .= $sqlluresWhere;
+		} */
+		//$sqllures .= $sqlluresWhere;
 		$sqllures .= " limit ". $start.",".$end;
 	
 		$result = $Connect->query($sqllures);
@@ -35,27 +35,26 @@
 		$rowluress[] = $rowlures;
 		}
 	   
-		$sqlluresTotal = "SELECT count(lure_id) as total FROM lures where qty > 0 ". $sqlluresWhere;
+		$sqlluresTotal = "SELECT count(line_id) as total FROM `lines` where 1=1 ". $sqlluresWhere;
 		
 		$resultTotal = $Connect->query($sqlluresTotal);
 		while ($rowTotal = $resultTotal->fetch_assoc()) {
 			$rowsTotal = $rowTotal["total"];
 		}
 		$totalpage =  ceil($rowsTotal / $pageNumber);
-		$sqlluresType = "SELECT * FROM lure_type ";
+/* 		$sqlluresType = "SELECT * FROM lure_type ";
 
 		$resultType = $Connect->query($sqlluresType);
 		while ($rowType = $resultType->fetch_assoc()) {
 		$rowsType[] = $rowType;
-		}
+		} */
 		
 		if (!empty($rowluress)) {
 			$output2= '{
 				"result": {				
 						"total_size" : "'.$rowsTotal.'",
 						"total_page" : "'.$totalpage.'",
-						"items": '.json_encode($rowluress).',
-						"lure_type": '.json_encode($rowsType).',
+						"items": '.json_encode($rowluress).',					
 						"sqllures":'.json_encode($sqllures).'			
 					}
 				}';
@@ -64,8 +63,7 @@
 			$output2= '{
 				"result": {				
 						"total_size" : "'.$rowsTotal.'",
-						"total_page" : "'.$totalpage.'",						
-						"lure_type": '.json_encode($rowsType).',
+						"total_page" : "'.$totalpage.'",				
 						"sqllures":'.json_encode($sqllures).'			
 					}
 				}';
