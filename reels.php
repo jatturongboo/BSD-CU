@@ -47,27 +47,27 @@ include("AddToCartReels.php");
 						<!------ Include the above in your HEAD tag ---------->
 							<?php 
 									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+										if (!empty($_SESSION['checkbrand_type'])) {
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
 											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
+											unset($_SESSION['checkbrand_type'][$key]);
 										}
 									}
 									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {										
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+										if (!empty($_SESSION['checkbrand_type']) && $_GET['chk'] == 'unChecked') {										
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
 											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
 										}else{										
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											if (!empty($_GET['brand_type'])) {
+												$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
 											}
 										}
 										
 									}
 									
-								if(!empty($_SESSION['checklures_type'])){
-									foreach($_SESSION['checklures_type'] as $key_type => $value_type){
+								if(!empty($_SESSION['checkbrand_type'])){
+									foreach($_SESSION['checkbrand_type'] as $key_type => $value_type){
 										$txt_type .= "".$value_type."|";
 									}
 								}
@@ -75,8 +75,8 @@ include("AddToCartReels.php");
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session='.$txt_type;
-							
+							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type;
+							echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {					
@@ -88,38 +88,38 @@ include("AddToCartReels.php");
 								<ul>
 									<? 																	
 									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+										if (!empty($_SESSION['checkbrand_type'])) {
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
 											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
+											unset($_SESSION['checkbrand_type'][$key]);
 										}
 									}
 									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+										if (!empty($_SESSION['checkbrand_type']) && $_GET['chk'] == 'unChecked') {
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
 											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
 										}else{
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											if (!empty($_GET['brand_type'])) {
+												$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
 											}
 										}
 									}
 
-									foreach ($valuelures->lure_type1 as $luretype) {
+									foreach ($valuelures->brand_type as $luretype) {
 										$checked = "unChecked";
-										if (!empty($_SESSION['checklures_type'])){ 
-												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
+										if (!empty($_SESSION['checkbrand_type'])){ 
+												$keysearchchk=array_search($luretype->BRAND_ID,$_SESSION['checkbrand_type']);											
 												
 												if($keysearchchk!==false){
 													$checked = "checked";
 											}
 										}											
-											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
+											$urlcheckbox = "location.href='reels.php?brand_type=".$luretype->BRAND_ID."&chk=".$checked."';";
 									?>
 										<li>
-										<label class="customcheck"><?=$luretype->lure_name_th?>										
-										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										<label class="customcheck"><?=$luretype->BRAND_NAME?>										
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->BRAND_ID?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
 										  <span class="checkmark"></span>
 										</label>
 										
@@ -127,63 +127,7 @@ include("AddToCartReels.php");
 									<? } ?>
 								</ul>		
 
-								<font size="2">									
-									<div id="collapse<?=$luretype->lure_type_id?>" style="display:none">
-									<p><?=$luretype->description?></p>
-									</div>
-									<a href="#collapse<?=$luretype->lure_type_id?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
-								</font>		
-							<h4>ประเภทลักษณะการใช้งาน</h4>
-							<ul>
-									<? 																	
-									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
-										}else{
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-											}
-										}
-									}
-
-									foreach ($valuelures->lure_type2 as $luretype) {
-										$checked = "unChecked";
-										if (!empty($_SESSION['checklures_type'])){ 
-												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
-												
-												if($keysearchchk!==false){
-													$checked = "checked";
-											}
-										}											
-											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
-									?>
-										<li>
-										<label class="customcheck"><?=$luretype->lure_name_th?>										
-										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
-										  <span class="checkmark"></span>
-										</label>
-										
-
-								</li>
-									<? } ?>
-								</ul>					
-							
-								<font size="2">									
-									<div id="collapse<?=$luretype->lure_type_id?>" style="display:none">
-									<p><?=$luretype->description?></p>
-									</div>
-									<a href="#collapse<?=$luretype->lure_type_id?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
-								</font>
-														<!------ Include Read More ---------->
+							<!------ Include Read More ---------->
 							<script>
 								$(document).ready(function () {
 									$('.nav-toggle').click(function () {
@@ -215,10 +159,10 @@ include("AddToCartReels.php");
 									</div>
 									<?
 										if (!empty($valuelures->items)) {
-											$urllines = "location.href='rods.php';";
+											$urlNext = "location.href='rods.php';";
 									?>
 									
-									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urllines;?>">Next</button></div>
+									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urlNext;?>">Next</button></div>
 									<?
 										}
 									?>
@@ -228,21 +172,21 @@ include("AddToCartReels.php");
 										if (!empty($valuelures->items)) {
 											
 										foreach ($valuelures->items as $product) {
-										$ItemID = $product->lure_id;		
+										$ItemID = $product->id;		
 									?>
 								
 										<div class="item col-xs-4 col-lg-4 "  >
 											<div class="thumbnail">
-												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detail.php?id=<?=$ItemID?>','_blank');" />
+												<img class="group list-group-image" src="<?=$product->Images;?>"  alt=""  onclick=" window.open('detail.php?id=<?=$ItemID?>','_blank');" />
 												<div class="caption">
 													<h4 class="group inner list-group-item-heading">
 													<?
-														echo $product->model;
+														echo $product->Model;
 													?>
 													</h4>
 													<p class="group inner list-group-item-text">
 													<?
-														echo $product->description;
+														echo $product->Description;
 													?>
 													<br>
 													<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label>
@@ -252,13 +196,13 @@ include("AddToCartReels.php");
 														  <div class="modal-dialog" role="document">
 															<div class="modal-content">
 															  <div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->model?></h5>
+																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->Model?></h5>
 																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																  <span aria-hidden="true">&times;</span>
 																</button>
 															  </div>
 															  <div class="modal-body">
-																<?= $product->description;?>
+																<?= $product->Description;?>
 															  </div>
 															  <div class="modal-footer">
 																<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -272,7 +216,7 @@ include("AddToCartReels.php");
 														<div class="col-xs-12 col-md-6">
 															<p class="lead">
 															<?
-																echo "฿".$product->price;
+																echo "฿".$product->Price;
 															?>
 															</p>
 														</div>
@@ -281,9 +225,9 @@ include("AddToCartReels.php");
 															if (!empty($_GET['page'])) {
 																$urlPage .= "&page=".$_GET['page'];
 															}
-															$urlAdd = "location.href='lures.php?cart=".$product->price."&id=".$ItemID.$urlPage."';";
+															$urlAdd = "location.href='reels.php?cart=".$product->Price."&id=".$ItemID.$urlPage."';";
 															?>
-															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
+															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->Price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
 														
 													</div>
@@ -309,7 +253,7 @@ include("AddToCartReels.php");
 										<nav aria-label="Page navigation example">
 											<ul class="pagination justify-content-center">
 												<li class="page-item <?=($pageNo == 1)?"disabled":"";?>">
-													<a class="page-link" <?=($pageNo == 1)?"":'href="lures.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
+													<a class="page-link" <?=($pageNo == 1)?"":'href="reels.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
 												</li>
 												<?
 												//echo $value->total_page;
@@ -325,14 +269,14 @@ include("AddToCartReels.php");
 														
 												?>
 												<li class="page-item <?=($pageNo == $i)?"active":""; ?>">
-													<a class="page-link" href="lures.php?page=<?=$i?>"><?=$i?></a>
+													<a class="page-link" href="reels.php?page=<?=$i?>"><?=$i?></a>
 												</li>
 												<?php
 													}
 												}
 												?>
 												<li class="page-item <?=($pageNo == $valuelures->total_page)?"disabled":"";?>">
-													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="lures.php?page='.($pageNo+1).'"';?>>Next</a>
+													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="reels.php?page='.($pageNo+1).'"';?>>Next</a>
 												</li>
 											</ul>
 										</nav>

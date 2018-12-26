@@ -43,6 +43,11 @@
 										if (!empty($_SESSION["itemcartID_line"])){
 											$sumAllqty +=count($_SESSION["itemcartID_line"]);
 										}
+										
+										if (!empty($_SESSION["itemcartID_Reels"])){
+											$sumAllqty +=count($_SESSION["itemcartID_Reels"]);
+										}
+										
 										?>
                                         <span class="qty"><?=$sumAllqty?></span>
 
@@ -131,7 +136,45 @@
 											}
 										}
 										?>
+										
+										<?php											
+										if (!empty($_SESSION["itemcartID_Reels"])){
 											
+											$arrReels = array_count_values($_SESSION["itemcartID_Reels"]);
+											
+											foreach ($arrReels as $key => $value) {												
+												$urlReels = $REQUEST_URI.'api/reelsDetail.php?id='.$key;
+												
+												$contentReels = file_get_contents($urlReels);	
+												$jsonReels = json_decode($contentReels);
+												foreach ($jsonReels as $valueReels) {
+													$rownum = 1;
+													foreach ($valueReels->items as $productReels) {	
+													$sumPrice += ($productReels->price* $value);												
+													$_SESSION["sumPrice"] = $sumPrice;
+										?>
+												<div class="product product-widget">
+													<div class="product-thumb">
+														<img src="<?=$productReels->image;?>" alt="">
+													</div>
+												  <div class="product-body">
+														<h3 class="product-price">฿<?echo $productReels->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
+														<h2 class="product-name"><a href="#"><?echo $productReels->Model; ?></a></h2>
+													</div>
+													<?
+														if (!empty($_GET['page'])) {
+															$urldel .= "&page=".$_GET['page'];
+														}
+													?>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+												</div>
+										<?php
+													}
+												}
+											}
+										}
+										?>
+										
                                         </div>
                                         
 										<div class="shopping-cart-btns">

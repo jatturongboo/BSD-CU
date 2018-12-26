@@ -1,6 +1,7 @@
 <?php
-include("AddToCartline.php");
 require("conf/config_Session.php");
+include("AddToCartline.php");
+
 
 ?>
 <!DOCTYPE html>
