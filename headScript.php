@@ -1,7 +1,6 @@
-<?
-print_r($_SESSION);
-$REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
-?>
+	<?
+	$REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
+	?>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">

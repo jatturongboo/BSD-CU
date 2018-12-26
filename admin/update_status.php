@@ -1,6 +1,6 @@
 <?php
 header('Content-Type: text/html; charset=utf-8');
-session_start();
+
 
 if ( $_SERVER['REQUEST_METHOD'] == 'POST' ) {
   require("../conf/config_mysqli.php");

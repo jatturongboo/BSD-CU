@@ -7,7 +7,7 @@
                     <div class="menu-nav">
                         <span class="menu-header">Menu <i class="fa fa-bars"></i></span>
                         <ul class="menu-list">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="recommend.php">Home</a></li>
                             <li><a href="#">แนะนำอุปกรณ์ตกปลา</a></li>
 
                         </ul>

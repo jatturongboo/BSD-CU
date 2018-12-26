@@ -5,7 +5,7 @@ header("Access-Control-Allow-Methods: GET,POST");
 header("Access-Control-Allow-Credentials: true");
 header('Content-Type: application/json;charset=utf-8');
 
-	session_start();
+	
 	require("../conf/config_mysqli.php");
 	mysqli_set_charset($Connect,"utf8");
   

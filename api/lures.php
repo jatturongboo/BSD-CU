@@ -1,5 +1,4 @@
 <?
-	session_start();		
 	header("Access-Control-Allow-Origin: *");
 	header("Access-Control-Allow-Headers: access");
 	header("Access-Control-Allow-Methods: GET,POST");
@@ -9,6 +8,8 @@
 	mysqli_set_charset($Connect,"utf8");
 	$pageNumber = 6;
 	$sqlluresWhere ="";
+	$sqlluresfish = "";
+	$sqlfishfilter = "";
 		$start = 0;
 		$end = $pageNumber;
 		if (!empty($_GET['page'])) {
@@ -17,26 +18,39 @@
 		}
 		$sqllures = "SELECT * FROM lures ";
 		$sqllures .= "where qty > 0 ";
-		if (!empty($_GET['session'])) {
-			$arr = explode("|",$_GET['session']);
+		if (!empty($_GET['session_lure_type'])) {
+			$arr = explode("|",$_GET['session_lure_type']);
 			$sqlluresWhere = " AND lure_type in ( ";			
 			foreach( $arr as $key3 => $value3){
 				if (!empty($value3))
 				$sqlluresWhere .= "'".$value3."',";
 			}
-			
 			$sqlluresWhere .= "'-99' ) ";
 		}
+		
+		if (!empty($_GET['sessionfish'])) {
+			$arrfish = explode("|",$_GET['sessionfish']);
+			$sqlluresWherefish = " AND fish_id in ( ";			
+			foreach( $arrfish as $keyfish => $valuefish){
+				if (!empty($valuefish))
+				$sqlluresWherefish .= "'".$valuefish."',";
+			}			
+			$sqlluresWherefish .= "'-99' ) ";
+			$sqlfishfilter = " AND lure_type in (SELECT lure_type_id FROM fish_type_ref where 1=1 " .$sqlluresWherefish .")"; 
+		}else{
+			$sqlfishfilter = " AND weight between 5 and 15 ";
+		}
+		
 		$sqllures .= $sqlluresWhere;
+		$sqllures .= $sqlfishfilter;
 		$sqllures .= " limit ". $start.",".$end;
-	
+		//echo $sqllures;
 		$result = $Connect->query($sqllures);
 		while ($rowlures = $result->fetch_assoc()) {
 		$rowluress[] = $rowlures;
 		}
 	   
-		$sqlluresTotal = "SELECT count(lure_id) as total FROM lures where qty > 0 ". $sqlluresWhere;
-		
+		$sqlluresTotal = "SELECT count(lure_id) as total FROM lures where qty > 0 ". $sqlluresWhere ." ".$sqlfishfilter;
 		$resultTotal = $Connect->query($sqlluresTotal);
 		while ($rowTotal = $resultTotal->fetch_assoc()) {
 			$rowsTotal = $rowTotal["total"];
@@ -52,9 +66,7 @@
 			elseif($rowType['lure_type']==2){
 				$rowsType2[] = $rowType;
 			}
-		
 		}
-		
 		if (!empty($rowluress)) {
 			$output2= '{
 				"result": {				

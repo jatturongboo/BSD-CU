@@ -1,5 +1,4 @@
 <?
-session_start();
 //session_destroy();
 /* print_r($_SESSION["itemcartID_lures"]);
 

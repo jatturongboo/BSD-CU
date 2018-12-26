@@ -1,7 +1,7 @@
 <?php
-session_start();
 include("AddToCartline.php");
-print_r($_SESSION["itemcartID_line"]);
+require("conf/config_Session.php");
+
 ?>
 <!DOCTYPE html>
 <html lang="en">

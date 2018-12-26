@@ -1,5 +1,5 @@
 <?php
-session_start();
+require("conf/config_Session.php");
 include("AddToCartlures.php");
 ?>
 <!DOCTYPE html>
@@ -71,12 +71,21 @@ include("AddToCartlures.php");
 										$txt_type .= "".$value_type."|";
 									}
 								}
+
+								if(!empty($_SESSION['final_species_fish'])){
+									foreach($_SESSION['final_species_fish'] as $key_type_fish => $value_type_fish){
+										$tmpvalue_type_fish = explode("|", $value_type_fish);
+										$txt_type_fish .= "".$tmpvalue_type_fish[0]."|";
+									}
+								}
+
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session='.$txt_type;
-							
+							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type='.$txt_type.'&sessionfish='.$txt_type_fish;
+							echo $urlget;
+
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {					
@@ -261,7 +270,7 @@ include("AddToCartlures.php");
 								
 										<div class="item col-xs-4 col-lg-4 "  >
 											<div class="thumbnail">
-												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detail.php?id=<?=$ItemID?>','_blank');" />
+												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detaillures.php?id=<?=$ItemID?>','_blank');" />
 												<div class="caption">
 													<h4 class="group inner list-group-item-heading">
 													<?
@@ -273,28 +282,7 @@ include("AddToCartlures.php");
 														echo $product->description;
 													?>
 													<br>
-													<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label>
-
-														<!-- Modal POPUP-->
-														<div class="modal fade" id="exampleModal<?=$ItemID?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-														  <div class="modal-dialog" role="document">
-															<div class="modal-content">
-															  <div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->model?></h5>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																  <span aria-hidden="true">&times;</span>
-																</button>
-															  </div>
-															  <div class="modal-body">
-																<?= $product->description;?>
-															  </div>
-															  <div class="modal-footer">
-																<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															  </div>
-															</div>
-														  </div>
-														</div>
-														<!-- Modal POPUP-->
+													
 													</p>
 													<div class="row">
 														<div class="col-xs-12 col-md-6">

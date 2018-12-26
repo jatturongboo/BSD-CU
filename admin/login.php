@@ -1,5 +1,5 @@
 <?php
-session_start();
+
 if (isset($_SESSION['UserID']) && $_SESSION['UserID'] != "") {
     header("location:index.php");
     exit();

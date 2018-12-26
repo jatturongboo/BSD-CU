@@ -1,5 +1,5 @@
 <?
-	session_start();
+	
 
     $key=array_search($_GET['delID'],$_SESSION['itemcartID_lures']);
 

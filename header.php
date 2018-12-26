@@ -34,7 +34,17 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <div class="header-btns-icon">
                                         <i class="fa fa-shopping-cart"></i>
-                                        <span class="qty"><?=count($_SESSION["itemcartID_lures"])+count($_SESSION["itemcartID_line"])?></span>
+										<?
+										$sumAllqty =0;
+										if (!empty($_SESSION["itemcartID_lures"])){
+											$sumAllqty +=count($_SESSION["itemcartID_lures"]);
+										}
+										
+										if (!empty($_SESSION["itemcartID_line"])){
+											$sumAllqty +=count($_SESSION["itemcartID_line"]);
+										}
+										?>
+                                        <span class="qty"><?=$sumAllqty?></span>
 
                                     </div>
                                     <strong class="text-uppercase">My Cart:</strong>

@@ -1,4 +1,5 @@
 <?php
+require("conf/config_Session.php");
 require("AddToCartlures.php");
 ?>
 <!DOCTYPE html>

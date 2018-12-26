@@ -1,6 +1,6 @@
 <?php
 
-session_start();
+
 require("../conf/config_mysqli.php");
 $strSQL = "SELECT * FROM users WHERE Username = '" . mysqli_real_escape_string($Connect, $_POST['Username']) . "'";
 echo $strSQL;
