@@ -34,7 +34,7 @@
                                 <a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
                                     <div class="header-btns-icon">
                                         <i class="fa fa-shopping-cart"></i>
-                                        <span class="qty"><?=count($_SESSION["itemcartID"])?></span>
+                                        <span class="qty"><?=count($_SESSION["itemcartID_lures"])+count($_SESSION["itemcartID_line"])?></span>
 
                                     </div>
                                     <strong class="text-uppercase">My Cart:</strong>
@@ -45,13 +45,14 @@
                                 <div class="custom-menu">
                                     <div id="shopping-cart">
                                         <div class="shopping-cart-list">
-										<?php										
-										if (!empty($_SESSION["itemcartID"])){											
+										<?php
 											$sumPrice = 0;
-											$arr = array_count_values($_SESSION["itemcartID"]);
+										if (!empty($_SESSION["itemcartID_lures"])){									
+											
+											$arr = array_count_values($_SESSION["itemcartID_lures"]);
 											
 											foreach ($arr as $key => $value) {												
-												$url2 = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$key;
+												$url2 = $REQUEST_URI.'api/luresDetail.php?id='.$key;
 												$content2 = file_get_contents($url2);	
 												$json2 = json_decode($content2);
 												foreach ($json2 as $value2) {
@@ -61,9 +62,51 @@
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 												<div class="product product-widget">
+													<div class="product-thumb">
+														<img src="<?=$product2->image;?>" alt="">
+													</div>
 												  <div class="product-body">
 														<h3 class="product-price">฿<?echo $product2->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
 														<h2 class="product-name"><a href="#"><?echo $product2->model; ?></a></h2>
+													</div>
+													<?
+														if (!empty($_GET['page'])) {
+															$urldel .= "&page=".$_GET['page'];
+														}
+													?>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+												</div>
+										<?php
+													}
+												}
+											}
+										}
+										?>
+										
+										
+										<?php											
+										if (!empty($_SESSION["itemcartID_line"])){
+											
+											$arrline = array_count_values($_SESSION["itemcartID_line"]);
+											
+											foreach ($arrline as $key => $value) {												
+												$urlline = $REQUEST_URI.'api/lineDetail.php?id='.$key;
+												
+												$contentline = file_get_contents($urlline);	
+												$jsonline = json_decode($contentline);
+												foreach ($jsonline as $valueline) {
+													$rownum = 1;
+													foreach ($valueline->items as $productline) {	
+													$sumPrice += ($productline->price* $value);												
+													$_SESSION["sumPrice"] = $sumPrice;
+										?>
+												<div class="product product-widget">
+													<div class="product-thumb">
+														<img src="<?=$productline->image;?>" alt="">
+													</div>
+												  <div class="product-body">
+														<h3 class="product-price">฿<?echo $productline->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
+														<h2 class="product-name"><a href="#"><?echo $productline->model; ?></a></h2>
 													</div>
 													<?
 														if (!empty($_GET['page'])) {

@@ -22,7 +22,7 @@ include("AddToCartlures.php");
                     <!-- section-title -->
                     <div class="col-md-12">
                         <div class="section-title">
-                            <h3 class="title">เหยื่อปลอม</h3>							
+                            <h3 class="title">เหยื่อปลอม (LURES)</h3>							
                         </div>
 						
                     </div>
@@ -30,8 +30,8 @@ include("AddToCartlures.php");
 					
 					</br>
 					<!-- Body -->
-                    <div class="col-md-12">
-                        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                    <div class="col-md-12">                       
+						<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 						<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 						<link href="css/pageProduct.css" rel="stylesheet" >
 						<link href="css/pageProduct2.css" rel="stylesheet" />
@@ -66,15 +66,17 @@ include("AddToCartlures.php");
 										
 									}
 									
-								foreach($_SESSION['checklures_type'] as $key_type => $value_type){
-									$txt_type .= "".$value_type."|";
+								if(!empty($_SESSION['checklures_type'])){
+									foreach($_SESSION['checklures_type'] as $key_type => $value_type){
+										$txt_type .= "".$value_type."|";
+									}
 								}
-									
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = 'http://localhost/Fishing_Equipment_Store/api/lures.php?page='.$pageNo.'&session='.$txt_type;
+							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session='.$txt_type;
+							
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {					
@@ -82,8 +84,8 @@ include("AddToCartlures.php");
 							<!--! Bar -->
 							
 							<div id="sidebar">
-								<h3>ประเภทเหยื่อ</h3>							
-									<ul>
+								<h4>ประเภทลักษณะรูปร่าง</h4>							
+								<ul>
 									<? 																	
 									if($_GET['chk']== "checked"){
 										if (!empty($_SESSION['checklures_type'])) {
@@ -94,47 +96,122 @@ include("AddToCartlures.php");
 									}
 									else {
 										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											//echo "1";
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
 											if($key===false)
 											$_SESSION["checklures_type"][]= $_GET['lures_type'];
 										}else{
-											//echo "2";
 											if (!empty($_GET['lures_type'])) {
 												$_SESSION["checklures_type"][]= $_GET['lures_type'];
 											}
 										}
 									}
 
-									foreach ($valuelures->lure_type as $luretype) {
+									foreach ($valuelures->lure_type1 as $luretype) {
 										$checked = "unChecked";
 										if (!empty($_SESSION['checklures_type'])){ 
-												$keysearchchk=array_search($luretype->lure_type,$_SESSION['checklures_type']);											
+												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
 												
 												if($keysearchchk!==false){
 													$checked = "checked";
 											}
 										}											
-											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type."&chk=".$checked."';";
+											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
 									?>
 										<li>
-										<label class="customcheck"><?=$luretype->lure_name_en?>										
-										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										<label class="customcheck"><?=$luretype->lure_name_th?>										
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
 										  <span class="checkmark"></span>
 										</label>
 										
-								<font size="2">
-									<p><?=$luretype->lure_name_th?></p>
-									<div id="collapse<?=$luretype->lure_type?>" style="display:none">
-									<p><?=$luretype->description?></p>
-									</div>
-									<a href="#collapse<?=$luretype->lure_type?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
-								</font>
 								</li>
 									<? } ?>
-								</ul>
+								</ul>		
+
+								<font size="2">	
+									<label class="btn-primary" data-toggle="modal" data-target="#exampleModalType1">Read More...</label>
+								</font>
+								
+								<!-- Modal POPUP-->
+								<div class="modal fade" id="exampleModalType1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<h5 class="modal-title" id="exampleModalType1">
+													<h3>เหยื่อปลอม (LURES) แบ่งตามประเภทการใช้งาน</h3>
+												</h5>
+												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+													<span aria-hidden="true">&times;</span>
+												</button>
+											</div>
+											<div class="modal-body">																	
+												<b>1.เหยื่อยาง</b>  ใช้การลาก หรือกระตุก เพื่อสร้างความสนใจ<br/>
+												<b>2.เหยื่อจิ๊กง</b>  เป็นแผ่นเหล็ก ใช้วิธีจิ๊ก หรือหยกขึ้นลง<br/>
+												<b>3.เหยื่อป๊อบเปอร์ง</b>  เหยื่อพวก ป๊อปเปอร์ ใช้ปากป๊อปน้ำสร้างความสนใจ<br/>
+												<b>4.เหยื่อปลั๊กง</b>  คือเหยื่อที่เป็นตัวปลาแบ่งตามลักษณะของลิ้น ดำตื้น ดำลึก  แบ่งตามการลอย เช่นจม จมช้า ลอย  รวมทั้งแบบไม่มีลิ้น สร้างแอคชั่นด้วยการกระตุกให้เลื้อยซ้าย ขวา<br/>
+												<b>5.เหยื่อประเภทใบพริ้วน้ำง</b> เช่น สปูน<br/>
+												<b>6.เหยื่อใบหมุนง</b> เช่น สปินเนอร์ สปินเนอร์เบท<br/>
+												<b>7.เหยื่อดำน้ำหน้าดินง</b> จำพวกกระดี่<br/>
+												<b>8.เหยื่อผิวน้ำง</b> จำพวก กบยาง กบไม้ หรือเหยื่อใบพัดต่าง ๆ<br/>
+											</div>
+											<div class="modal-footer">
+												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Modal POPUP-->
+														
+							<h4>ประเภทลักษณะการใช้งาน</h4>
+							<ul>
+									<? 																	
+									if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checklures_type'])) {
+											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+											if($key!==false)
+											unset($_SESSION['checklures_type'][$key]);
+										}
+									}
+									else {
+										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
+											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+											if($key===false)
+											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+										}else{
+											if (!empty($_GET['lures_type'])) {
+												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											}
+										}
+									}
+
+									foreach ($valuelures->lure_type2 as $luretype) {
+										$checked = "unChecked";
+										if (!empty($_SESSION['checklures_type'])){ 
+												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
+												
+												if($keysearchchk!==false){
+													$checked = "checked";
+											}
+										}											
+											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
+									?>
+										<li>
+										<label class="customcheck"><?=$luretype->lure_name_th?>										
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										  <span class="checkmark"></span>
+										</label>
+										
+
+								</li>
+									<? } ?>
+								</ul>					
 							
-							<!------ Include Read More ---------->
+								<font size="2">									
+									<div id="collapse<?=$luretype->lure_type_id?>" style="display:none">
+									<p><?=$luretype->description?></p>
+									</div>
+									<a href="#collapse<?=$luretype->lure_type_id?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
+								</font>
+														<!------ Include Read More ---------->
 							<script>
 								$(document).ready(function () {
 									$('.nav-toggle').click(function () {
@@ -166,8 +243,10 @@ include("AddToCartlures.php");
 									</div>
 									<?
 										if (!empty($valuelures->items)) {
+											$urllines = "location.href='lines.php';";
 									?>
-									<div class="text-right"><button type="submit" class="btn btn-success">Next</button></div>
+									
+									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urllines;?>">Next</button></div>
 									<?
 										}
 									?>
@@ -262,7 +341,14 @@ include("AddToCartlures.php");
 												</li>
 												<?
 												//echo $value->total_page;
-												for($i =1; $i <= 3; $i++) {
+												$calngv = $pageNo;
+												$i = 1;
+												if($pageNo < 5){
+													$calngv = $pageNo+3;
+												}else {
+													$i = $pageNo-4;
+												}
+												for($i; $i <=$calngv; $i++) {
 													if($i <= $valuelures->total_page) {
 														
 												?>

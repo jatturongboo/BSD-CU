@@ -1,7 +1,6 @@
 <?php
 session_start();
-include("AddToCartline.php");
-print_r($_SESSION["itemcartID_line"]);
+include("AddToCartReels.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +22,7 @@ print_r($_SESSION["itemcartID_line"]);
                     <!-- section-title -->
                     <div class="col-md-12">
                         <div class="section-title">
-                            <h3 class="title">เอ็น (lines)</h3>							
+                            <h3 class="title">รอก (REELS)</h3>							
                         </div>
 						
                     </div>
@@ -31,8 +30,8 @@ print_r($_SESSION["itemcartID_line"]);
 					
 					</br>
 					<!-- Body -->
-                    <div class="col-md-12">
-                        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                    <div class="col-md-12">                       
+						<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 						<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 						<link href="css/pageProduct.css" rel="stylesheet" >
 						<link href="css/pageProduct2.css" rel="stylesheet" />
@@ -47,7 +46,7 @@ print_r($_SESSION["itemcartID_line"]);
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php 
-/* 									if($_GET['chk']== "checked"){
+									if($_GET['chk']== "checked"){
 										if (!empty($_SESSION['checklures_type'])) {
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
 											if($key!==false)
@@ -67,25 +66,26 @@ print_r($_SESSION["itemcartID_line"]);
 										
 									}
 									
-								foreach($_SESSION['checklures_type'] as $key_type => $value_type){
-									$txt_type .= "".$value_type."|";
+								if(!empty($_SESSION['checklures_type'])){
+									foreach($_SESSION['checklures_type'] as $key_type => $value_type){
+										$txt_type .= "".$value_type."|";
+									}
 								}
-									 */
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&session='.$txt_type;
+							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session='.$txt_type;
 							
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
-							foreach ($jsonget as $valuelures) {			
+							foreach ($jsonget as $valuelures) {					
 							?>
 							<!--! Bar -->
 							
 							<div id="sidebar">
-								<h3>ประเภทเอ็น</h3>							
-									<ul>
+								<h4>ประเภทลักษณะรูปร่าง</h4>							
+								<ul>
 									<? 																	
 									if($_GET['chk']== "checked"){
 										if (!empty($_SESSION['checklures_type'])) {
@@ -96,51 +96,94 @@ print_r($_SESSION["itemcartID_line"]);
 									}
 									else {
 										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											//echo "1";
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
 											if($key===false)
 											$_SESSION["checklures_type"][]= $_GET['lures_type'];
 										}else{
-											//echo "2";
 											if (!empty($_GET['lures_type'])) {
 												$_SESSION["checklures_type"][]= $_GET['lures_type'];
 											}
 										}
 									}
 
-									if (!empty($valuelures->lure_type)) {
-											foreach ($valuelures->lure_type as $luretype) {
-												$checked = "unChecked";
-												if (!empty($_SESSION['checklures_type'])){
-														$keysearchchk=array_search($luretype->lure_type,$_SESSION['checklures_type']);											
-														
-														if($keysearchchk!==false){
-															$checked = "checked";
-													}
-												}											
-													$urlcheckbox = "location.href='lines.php?lures_type=".$luretype->lure_type."&chk=".$checked."';";
-											?>
-										<li>
-												<label class="customcheck"><?=$luretype->lure_name_en?>										
-												<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
-												  <span class="checkmark"></span>
-												</label>
+									foreach ($valuelures->lure_type1 as $luretype) {
+										$checked = "unChecked";
+										if (!empty($_SESSION['checklures_type'])){ 
+												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
 												
-										<font size="2">
-											<p><?=$luretype->lure_name_th?></p>
-											<div id="collapse<?=$luretype->lure_type?>" style="display:none">
-											<p><?=$luretype->description?></p>
-											</div>
-											<a href="#collapse<?=$luretype->lure_type?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
-										</font>
-										</li>
-									<? 
+												if($keysearchchk!==false){
+													$checked = "checked";
+											}
+										}											
+											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
+									?>
+										<li>
+										<label class="customcheck"><?=$luretype->lure_name_th?>										
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										  <span class="checkmark"></span>
+										</label>
+										
+								</li>
+									<? } ?>
+								</ul>		
+
+								<font size="2">									
+									<div id="collapse<?=$luretype->lure_type_id?>" style="display:none">
+									<p><?=$luretype->description?></p>
+									</div>
+									<a href="#collapse<?=$luretype->lure_type_id?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
+								</font>		
+							<h4>ประเภทลักษณะการใช้งาน</h4>
+							<ul>
+									<? 																	
+									if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checklures_type'])) {
+											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+											if($key!==false)
+											unset($_SESSION['checklures_type'][$key]);
 										}
 									}
+									else {
+										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
+											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
+											if($key===false)
+											$_SESSION["checklures_type"][]= $_GET['lures_type'];
+										}else{
+											if (!empty($_GET['lures_type'])) {
+												$_SESSION["checklures_type"][]= $_GET['lures_type'];
+											}
+										}
+									}
+
+									foreach ($valuelures->lure_type2 as $luretype) {
+										$checked = "unChecked";
+										if (!empty($_SESSION['checklures_type'])){ 
+												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
+												
+												if($keysearchchk!==false){
+													$checked = "checked";
+											}
+										}											
+											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
 									?>
-								</ul>
+										<li>
+										<label class="customcheck"><?=$luretype->lure_name_th?>										
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										  <span class="checkmark"></span>
+										</label>
+										
+
+								</li>
+									<? } ?>
+								</ul>					
 							
-							<!------ Include Read More ---------->
+								<font size="2">									
+									<div id="collapse<?=$luretype->lure_type_id?>" style="display:none">
+									<p><?=$luretype->description?></p>
+									</div>
+									<a href="#collapse<?=$luretype->lure_type_id?>" class="nav-toggle" onclick="scrollTo()" >Read More</a>
+								</font>
+														<!------ Include Read More ---------->
 							<script>
 								$(document).ready(function () {
 									$('.nav-toggle').click(function () {
@@ -172,8 +215,10 @@ print_r($_SESSION["itemcartID_line"]);
 									</div>
 									<?
 										if (!empty($valuelures->items)) {
+											$urllines = "location.href='lines.php';";
 									?>
-									<div class="text-right"><button type="submit" class="btn btn-success">Next</button></div>
+									
+									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urllines;?>">Next</button></div>
 									<?
 										}
 									?>
@@ -183,7 +228,7 @@ print_r($_SESSION["itemcartID_line"]);
 										if (!empty($valuelures->items)) {
 											
 										foreach ($valuelures->items as $product) {
-										$ItemID = $product->line_id;		
+										$ItemID = $product->lure_id;		
 									?>
 								
 										<div class="item col-xs-4 col-lg-4 "  >
@@ -236,15 +281,16 @@ print_r($_SESSION["itemcartID_line"]);
 															if (!empty($_GET['page'])) {
 																$urlPage .= "&page=".$_GET['page'];
 															}
-															$urlAdd = "location.href='lines.php?cart=1&id=".$ItemID."".$urlPage."';";
+															$urlAdd = "location.href='lures.php?cart=".$product->price."&id=".$ItemID.$urlPage."';";
 															?>
-															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก<?=$ItemID?> </a>
+															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
 														
 													</div>
 												</div>
 											</div>
 										</div>
+										
 									</a>
 										<?php 
 											} 											
@@ -263,23 +309,30 @@ print_r($_SESSION["itemcartID_line"]);
 										<nav aria-label="Page navigation example">
 											<ul class="pagination justify-content-center">
 												<li class="page-item <?=($pageNo == 1)?"disabled":"";?>">
-													<a class="page-link" <?=($pageNo == 1)?"":'href="lines.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
+													<a class="page-link" <?=($pageNo == 1)?"":'href="lures.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
 												</li>
 												<?
 												//echo $value->total_page;
-												for($i =1; $i <= 3; $i++) {
+												$calngv = $pageNo;
+												$i = 1;
+												if($pageNo < 5){
+													$calngv = $pageNo+3;
+												}else {
+													$i = $pageNo-4;
+												}
+												for($i; $i <=$calngv; $i++) {
 													if($i <= $valuelures->total_page) {
 														
 												?>
 												<li class="page-item <?=($pageNo == $i)?"active":""; ?>">
-													<a class="page-link" href="lines.php?page=<?=$i?>"><?=$i?></a>
+													<a class="page-link" href="lures.php?page=<?=$i?>"><?=$i?></a>
 												</li>
 												<?php
 													}
 												}
 												?>
 												<li class="page-item <?=($pageNo == $valuelures->total_page)?"disabled":"";?>">
-													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="lines.php?page='.($pageNo+1).'"';?>>Next</a>
+													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="lures.php?page='.($pageNo+1).'"';?>>Next</a>
 												</li>
 											</ul>
 										</nav>

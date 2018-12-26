@@ -46,7 +46,13 @@
 
 		$resultType = $Connect->query($sqlluresType);
 		while ($rowType = $resultType->fetch_assoc()) {
-		$rowsType[] = $rowType;
+			if($rowType['lure_type']==1){
+				$rowsType1[] = $rowType;
+			}
+			elseif($rowType['lure_type']==2){
+				$rowsType2[] = $rowType;
+			}
+		
 		}
 		
 		if (!empty($rowluress)) {
@@ -55,8 +61,8 @@
 						"total_size" : "'.$rowsTotal.'",
 						"total_page" : "'.$totalpage.'",
 						"items": '.json_encode($rowluress).',
-						"lure_type": '.json_encode($rowsType).',
-						"sqllures":'.json_encode($sqllures).'			
+						"lure_type1": '.json_encode($rowsType1).',
+						"lure_type2": '.json_encode($rowsType2).'	
 					}
 				}';
 		}
@@ -65,8 +71,8 @@
 				"result": {				
 						"total_size" : "'.$rowsTotal.'",
 						"total_page" : "'.$totalpage.'",						
-						"lure_type": '.json_encode($rowsType).',
-						"sqllures":'.json_encode($sqllures).'			
+						"lure_type1": '.json_encode($rowsType1).',
+						"lure_type2": '.json_encode($rowsType2).'	
 					}
 				}';
 		}

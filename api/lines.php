@@ -7,7 +7,7 @@
 	header('Content-Type: application/json;charset=utf-8');	
 	require("../conf/config_mysqli.php");
 	mysqli_set_charset($Connect,"utf8");
-	$pageNumber = 6;
+	$pageNumber = 1;
 	$sqlluresWhere ="";
 		$start = 0;
 		$end = $pageNumber;
@@ -32,7 +32,7 @@
 	
 		$result = $Connect->query($sqllures);
 		while ($rowlures = $result->fetch_assoc()) {
-		$rowluress[] = $rowlures;
+		$rowlines[] = $rowlures;
 		}
 	   
 		$sqlluresTotal = "SELECT count(line_id) as total FROM `lines` where 1=1 ". $sqlluresWhere;
@@ -49,12 +49,12 @@
 		$rowsType[] = $rowType;
 		} */
 		
-		if (!empty($rowluress)) {
+		if (!empty($rowlines)) {
 			$output2= '{
 				"result": {				
 						"total_size" : "'.$rowsTotal.'",
 						"total_page" : "'.$totalpage.'",
-						"items": '.json_encode($rowluress).',					
+						"items": '.json_encode($rowlines).',					
 						"sqllures":'.json_encode($sqllures).'			
 					}
 				}';

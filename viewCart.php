@@ -45,26 +45,27 @@ require("AddToCartlures.php");
 											</thead>										
 											<tbody>
 											<?
-											if (!empty($_SESSION["itemcartID"])){
-												$sumPrice = 0;
-												$arr = array_count_values($_SESSION["itemcartID"]);
+											$sumPrice = 0;
+											if (!empty($_SESSION["itemcartID_lures"])){
+												
+												$arr = array_count_values($_SESSION["itemcartID_lures"]);
 											
 												foreach ($arr as $key => $value) {
 													
-													$url2 = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$key;
+													$url2 = $REQUEST_URI.'api/luresDetail.php?id='.$key;
 													$content2 = file_get_contents($url2);	
 													$json2 = json_decode($content2);
 												
 													foreach ($json2 as $value2) {
 														$rownum = 1;
 														foreach ($value2->items as $product2){
-														$sumPrice += ($product2->price * $value);												
+														$sumPricelures += ($product2->price * $value);												
 														
 											?>
 												<tr>
 													<td data-th="Product">
 														<div class="row">
-															<div class="col-sm-2 hidden-xs"><img src="http://placehold.it/100x100" alt="..." class="img-responsive"/></div>
+															<div class="col-sm-2 hidden-xs"><img src="<?echo $product2->image; ?>" alt="..." class="img-responsive"/></div>
 															<div class="col-sm-10">
 																<h4 class="nomargin"><?echo $product2->model; ?></h4>
 																<p><?=$product2->description;?></p>
@@ -75,7 +76,7 @@ require("AddToCartlures.php");
 													<td data-th="Quantity">
 														<input type="number" class="form-control text-center" value="<?=$value?>">
 													</td>
-													<td data-th="Subtotal" class="text-center"><?=$sumPrice?></td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPricelures?></td>
 													<td class="actions" data-th="">							
 														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>'"><i class="fa fa-trash-o"></i></button>								
 													</td>
@@ -88,16 +89,59 @@ require("AddToCartlures.php");
 											}
 											?>
 												
+																						<?
+											if (!empty($_SESSION["itemcartID_line"])){
 												
+												$arr = array_count_values($_SESSION["itemcartID_line"]);
+											
+												foreach ($arr as $key => $value) {
+													
+													$urlvline = $REQUEST_URI.'api/lineDetail.php?id='.$key;
+													$contentvline = file_get_contents($urlvline);	
+													$jsonvline = json_decode($contentvline);
+												
+													foreach ($jsonvline as $valuevline) {
+														$rownum = 1;
+														foreach ($valuevline->items as $productvline){
+														$sumPricevline += ($productvline->price * $value);												
+														
+											?>
+												<tr>
+													<td data-th="Product">
+														<div class="row">
+															<div class="col-sm-2 hidden-xs"><img src="<?echo $productvline->image; ?>" alt="..." class="img-responsive"/></div>
+															<div class="col-sm-10">
+																<h4 class="nomargin"><?echo $productvline->model; ?></h4>
+																<p><?=$productvline->description;?></p>
+															</div>
+														</div>
+													</td>
+													<td data-th="Price">฿<?=$productvline->price?></td>
+													<td data-th="Quantity">
+														<input type="number" class="form-control text-center" value="<?=$value?>">
+													</td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
+													<td class="actions" data-th="">							
+														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>'"><i class="fa fa-trash-o"></i></button>								
+													</td>
+												</tr>	
+																								
+											<?php
+														}
+													}
+												}
+											}
+											?>
+											
 											</tbody>
 											<tfoot>
 												<tr class="visible-xs">
-													<td class="text-center"><strong>Total <?=$sumPrice;?></strong></td>
+													<td class="text-center"><strong>Total <?=$sumPricelures+$sumPricevline;?></strong></td>
 												</tr>
 												<tr>
 													<td><a href="#" class="btn btn-warning"  onclick="window.history.go(-1); return false;"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
 													<td colspan="2" class="hidden-xs"></td>
-													<td class="hidden-xs text-center"><strong>Total <?=$sumPrice;?></strong></td>
+													<td class="hidden-xs text-center"><strong>Total <?=$sumPricelures+$sumPricevline;?></strong></td>
 													<td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
 												</tr>
 											</tfoot>
