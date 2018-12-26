@@ -208,9 +208,7 @@ include("AddToCartlures.php");
 										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
 										  <span class="checkmark"></span>
 										</label>
-										
-
-								</li>
+										</li>
 									<? } ?>
 								</ul>					
 							

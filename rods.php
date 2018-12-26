@@ -1,7 +1,6 @@
 <?php
 require("conf/config_Session.php");
 include("AddToCartline.php");
-
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +46,7 @@ include("AddToCartline.php");
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php 
-/* 									if($_GET['chk']== "checked"){
+ 									if($_GET['chk']== "checked"){
 										if (!empty($_SESSION['checkrods_type'])) {
 											$key=array_search($_GET['rod_type'],$_SESSION['checkrods_type']);
 											if($key!==false)
@@ -70,13 +69,13 @@ include("AddToCartline.php");
 								foreach($_SESSION['checkrods_type'] as $key_type => $value_type){
 									$txt_type .= "".$value_type."|";
 								}
-									 */
+									
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'/api/rods.php?page='.$pageNo.'&session='.$txt_type;
-							echo $urlget;
+							$urlget = $REQUEST_URI.'/api/rods.php?page='.$pageNo.'&session_rods_type='.$txt_type;
+							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {	
@@ -121,10 +120,10 @@ include("AddToCartline.php");
 													$urlcheckbox = "location.href='rods.php?rod_type=".$luretype->rod_type_id."&chk=".$checked."';";
 											?>
 										<li>
-												<label class="customcheck"><?=$luretype->rod_type_name?>										
-												<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->rod_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
-												  <span class="checkmark"></span>
-												</label>
+											<label class="customcheck"><?=$luretype->rod_type_name?>										
+											<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->rod_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+												<span class="checkmark"></span>
+											</label>
 
 										</li>
 									<? 

@@ -75,7 +75,9 @@
 						"total_page" : "'.$totalpage.'",
 						"items": '.json_encode($rowluress).',
 						"lure_type1": '.json_encode($rowsType1).',
-						"lure_type2": '.json_encode($rowsType2).'	
+						"lure_type2": '.json_encode($rowsType2).',
+						"sqllures"	: "'.$sqllures.'"
+						
 					}
 				}';
 		}
