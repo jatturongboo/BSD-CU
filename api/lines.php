@@ -7,7 +7,7 @@
 	header('Content-Type: application/json;charset=utf-8');	
 	require("../conf/config_mysqli.php");
 	mysqli_set_charset($Connect,"utf8");
-	$pageNumber = 1;
+	$pageNumber = 6;
 	$sqlluresWhere ="";
 		$start = 0;
 		$end = $pageNumber;

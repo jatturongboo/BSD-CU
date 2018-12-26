@@ -131,35 +131,35 @@ include("AddToCartlures.php");
 									<label class="btn-primary" data-toggle="modal" data-target="#exampleModalType1">Read More...</label>
 								</font>
 								
-								<!-- Modal POPUP-->
-								<div class="modal fade" id="exampleModalType1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-									<div class="modal-dialog" role="document">
-										<div class="modal-content">
-											<div class="modal-header">
-												<h5 class="modal-title" id="exampleModalType1">
-													<h3>เหยื่อปลอม (LURES) แบ่งตามประเภทการใช้งาน</h3>
-												</h5>
-												<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-													<span aria-hidden="true">&times;</span>
-												</button>
-											</div>
-											<div class="modal-body">																	
-												<b>1.เหยื่อยาง</b>  ใช้การลาก หรือกระตุก เพื่อสร้างความสนใจ<br/>
-												<b>2.เหยื่อจิ๊กง</b>  เป็นแผ่นเหล็ก ใช้วิธีจิ๊ก หรือหยกขึ้นลง<br/>
-												<b>3.เหยื่อป๊อบเปอร์ง</b>  เหยื่อพวก ป๊อปเปอร์ ใช้ปากป๊อปน้ำสร้างความสนใจ<br/>
-												<b>4.เหยื่อปลั๊กง</b>  คือเหยื่อที่เป็นตัวปลาแบ่งตามลักษณะของลิ้น ดำตื้น ดำลึก  แบ่งตามการลอย เช่นจม จมช้า ลอย  รวมทั้งแบบไม่มีลิ้น สร้างแอคชั่นด้วยการกระตุกให้เลื้อยซ้าย ขวา<br/>
-												<b>5.เหยื่อประเภทใบพริ้วน้ำง</b> เช่น สปูน<br/>
-												<b>6.เหยื่อใบหมุนง</b> เช่น สปินเนอร์ สปินเนอร์เบท<br/>
-												<b>7.เหยื่อดำน้ำหน้าดินง</b> จำพวกกระดี่<br/>
-												<b>8.เหยื่อผิวน้ำง</b> จำพวก กบยาง กบไม้ หรือเหยื่อใบพัดต่าง ๆ<br/>
-											</div>
-											<div class="modal-footer">
-												<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-											</div>
-										</div>
+						<!-- Modal POPUP-->
+						<div class="modal fade" id="exampleModalType1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="exampleModalType1">
+											<h3>เหยื่อปลอม (LURES) แบ่งตามประเภทการใช้งาน</h3>
+										</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">																	
+										<b>1.เหยื่อยาง</b>  ใช้การลาก หรือกระตุก เพื่อสร้างความสนใจ<br/>
+										<b>2.เหยื่อจิ๊กง</b>  เป็นแผ่นเหล็ก ใช้วิธีจิ๊ก หรือหยกขึ้นลง<br/>
+										<b>3.เหยื่อป๊อบเปอร์ง</b>  เหยื่อพวก ป๊อปเปอร์ ใช้ปากป๊อปน้ำสร้างความสนใจ<br/>
+										<b>4.เหยื่อปลั๊กง</b>  คือเหยื่อที่เป็นตัวปลาแบ่งตามลักษณะของลิ้น ดำตื้น ดำลึก  แบ่งตามการลอย เช่นจม จมช้า ลอย  รวมทั้งแบบไม่มีลิ้น สร้างแอคชั่นด้วยการกระตุกให้เลื้อยซ้าย ขวา<br/>
+										<b>5.เหยื่อประเภทใบพริ้วน้ำง</b> เช่น สปูน<br/>
+										<b>6.เหยื่อใบหมุนง</b> เช่น สปินเนอร์ สปินเนอร์เบท<br/>
+										<b>7.เหยื่อดำน้ำหน้าดินง</b> จำพวกกระดี่<br/>
+										<b>8.เหยื่อผิวน้ำง</b> จำพวก กบยาง กบไม้ หรือเหยื่อใบพัดต่าง ๆ<br/>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 									</div>
 								</div>
-								<!-- Modal POPUP-->
+							</div>
+						</div>
+						<!-- Modal POPUP-->
 														
 							<h4>ประเภทลักษณะการใช้งาน</h4>
 							<ul>

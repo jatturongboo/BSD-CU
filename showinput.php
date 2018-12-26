@@ -4,11 +4,60 @@ header('Content-Type: text/html; charset=utf-8');
 require("conf/config_mysqli.php");
 mysqli_set_charset($Connect, "utf8");
 $menu = 'registerAll';
+
+include("util.php");
+
+//Get Value From recommend.php
+$budgetvalue = $_POST["budget"];
+$budgettxt = getBudget($budgetvalue);
+$handvalue = $_POST["choosehand"];
+$handtxt = getHand($handvalue);
+$expvalue = $_POST["exp"];
+$exptxt = getExperience($expvalue);
+
+$waterf_txt = "";
+$watertype_f = "";
+
+if (!empty($_POST["watertype_f"])) {
+  $watertype_f =  $_POST["watertype_f"];
+  $waterf_txt = "น้ำจืด";
+}
+
+$waters_txt = "";
+$watertype_s = "";
+if (!empty($_POST["watertype_s"])) {
+  $watertype_s =  $_POST["watertype_s"];
+  $waters_txt = "น้ำเค็ม";
+}
+
+
+/* foreach ($_POST as $key => $value) {
+    echo "Field ".htmlspecialchars($key)." is ".htmlspecialchars($value)."<br>";
+} */
+print_r($_POST)
+
+
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+	<style>
+	table {
+	  font-family: arial, sans-serif;
+	  border-collapse: collapse;
+	  width: 100%;
+	}
 
+	td, th {
+	  border: 1px solid #f7f7f7;
+	  text-align: left;
+	  padding: 8px;
+	}
+
+	tr:nth-child(even) {
+	  background-color: #f7f7f7;
+	}
+	</style>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -368,173 +417,195 @@ $menu = 'registerAll';
                     <!-- section-title -->
                     <div class="col-md-12">
                         <div class="section-title">
-                            <h3 class="title">กรอกข้อมูลเพื่อหาอุปกรณ์ตกปลาที่เหมาะสม</h3>
-
+                            <h3 class="title">ข้อมูลเพื่อหาอุปกรณ์ตกปลาที่เหมาะสม</h3>
                         </div>
                     </div>
                     <!-- /section-title -->
 					          </br>
-
-                    <div class="col-md-12">
-                        <form name='recommend' method="post" action="showinput.php">
-                            <div class="form-group col-md-12">
-                                <label for="budget">งบประมาณ</label>
-                                <select class="input" name="budget" id="budget">
-                                    <option value="1">น้อยกว่า 2,500 บาท</option>
-                                    <option value="2">2,501 - 5,000 บาท</option>
-                                    <option value="3">5,001 - 7,500 บาท</option>
-                                    <option value="4">7,501 - 10,000 บาท</option>
-									                  <option value="5">มากกว่า 10,000 บาท</option>
-                                </select>
-                            </div>
-
               </br>
-							<div class="form-group col-md-12">
-                                <label for="budget">มือข้างที่ถนัด</label>
-                                <select class="input" name="choosehand" id="choosehand">
-                                    <option value="ALL">ทั้งสองข้าง</option>
-                                    <option value="LH">มือซ้าย</option>
-                                    <option value="RH">มือขวา</option>
-                                </select>
-                            </div>
-							</br>
-              <div class="form-group col-md-12">
-                <label>เคยมีประสบการณ์ตกปลามาแล้วหรือไม่ ?</label>
-                <div class="input-checkbox">
-                    <input type="radio" name="exp" value="N" checked  >
-                    <label class="font-weak" for="experience0">ยังไม่เคยตกปลามาก่อน</label> &nbsp;&nbsp;
-                    <input type="radio" name="exp" value="Y"  >
-                    <label class="font-weak" for="experience1">มีประสบการณ์ตกปลามาบ้างแล้ว</label>
-                </div>
-            </div> </diV>
-
-            </div>
-            <div class="form-group col-md-12">
-               <label>ประเภทของแหล่งน้ำ ?</label>
-               <div class="input-checkbox">
-                   <input type="checkbox" name="watertype_f" value="Y" onclick="toggle('.myClass',1, this)" id="watertype_f" class="chkbox">
-                   <label class="font-weak" for="experience0">น้ำจืด</label> &nbsp;&nbsp;
-                   <input type="checkbox" name="watertype_s" value="Y" onclick="toggle('.myClass1',2, this)" id="watertype_s" class="chkbox">
-                   <label class="font-weak" for="experience1">น้ำเค็ม</label>
-               </div>
-           </div>
-                            <div class="form-group col-md-12 myClass1" style="display: none;">
-                                <label>แหล่งน้ำเค็ม</label>
-                                <div class="input-checkbox">
-
-                                  <?php
-
-                                  $strSQL = 'SELECT * FROM `water_source` where `water_id` = 2 order by water_source_id';
-                                  $objQuery = mysqli_query($Connect, $strSQL);
-
-                                  while ($element = mysqli_fetch_assoc($objQuery)) {
-                                    echo '<input type="checkbox" name="water_source_2[]" value="'.$element['water_source_id'].'|'.$element['water_source_name'].'" id="'.$element['water_source_id'].'" >';
-                                    echo ' <label class="font-weak" for="fishing_grounds0">'.$element['water_source_name'].'</label>';
-                                  }
-                                  ?>
-
-
-                                </div>
-                            </div>
-							<script>
-							$( ".chkbox" ).click(function() {
-								$(".chkflgA").hide();
-								$(".chkflgf").hide();
-								$(".chkflgs").hide();
-								if ($( "#watertype_f" ).prop('checked') && $( "#watertype_s" ).prop('checked')){
-									$(".chkflgA").show();
-								}
-								else if ($( "#watertype_f" ).prop('checked')){
-									$(".chkflgf").show();
-								}
-								else if ($( "#watertype_s" ).prop('checked')){
-									$(".chkflgs").show();
-								}
-							});
+				<div class="form-group col-md-12">
+					<table class="table table-bordered">
+						<thead>
+							<tr>
+								<TH width="5%" SCOPE="COL"/>
+								<TH width="20%" SCOPE="COL">INPUT</TH>
+								<TH width="15%" SCOPE="COL">VALUE</TH>
+								<TH width="15%" SCOPE="COL">DESC</TH>
+								<TH width="15%" SCOPE="COL">OUTPUT</TH>
+								<TH width="15%" SCOPE="COL">VALUE</TH>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<th scope="row">1</th>
+								<td>งบประมาณ</td>
+								<td><?=$budgetvalue;?></td>
+								<td><?=$budgettxt;?></td>
+								<td/>
+								<td/>
+							</tr>
+							<tr>
+								<th scope="row">2</th>
+								<td>มือข้างที่ถนัด</td>
+								<td><?=$handvalue;?></td>
+								<td><?=$handtxt;?></td>
+								<td/>
+								<td/>
+							</tr>
+							<tr>
+								<th scope="row">3</th>
+								<td>ระดับประสบการณ์</td>
+								<td><?=$expvalue;?></td>
+								<td><?=$exptxt;?></td>
+								<td/>
+								<td/>
+							</tr>
+							<tr>
+								<th scope="row">4</th>
+								<td>ประเภทของแหล่งน้ำจืด</td>
+								<td><?=$watertype_f;?></td>
+								<td><?=$waterf_txt;?></td>
+								<td/>
+								<td/>
+							</tr>
+							<tr>
+								<th scope="row">5</th>
+								<td>ประเภทของแหล่งน้ำเค็ม</td>
+								<td><?=$watertype_s;?></td>
+								<td><?=$waters_txt;?></td>
+								<td/>
+								<td/>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				</br>
+							<?
+							///ประเภทของแหล่งน้ำจืด
+							if(!empty($_POST['water_source_1'])){
+							?>
+								<div class="form-group col-md-12"> <br/><h4>ประเภทของแหล่งน้ำจืด</h4>
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<TH width="5%" SCOPE="COL"></TH>
+												<TH width="20%" SCOPE="COL">INPUT</TH>
+												<TH width="15%" SCOPE="COL">VALUE</TH>											
+											</tr>
+										</thead>
+										<tbody>
+										<?
+										$countrow =1;
+										  foreach($_POST['water_source_1'] as $selected){
+											$selectedValue = explode("|", $selected);
+										?>
+											<tr>
+												<td ><?=$countrow++;?></td>
+												<td><?echo $selectedValue[1];?></td>
+												<td><?echo $selectedValue[0];?></td>
+											</tr>
+										<?
+										 }
+										?>
+										</tbody>
+									</table>
+								</div>
+							<?
+							 }
+							 ///ประเภทของแหล่งน้ำจืด
+							?>
 							
-							function toggle(classShow,value, obj) {
-								var $input = $(obj);
-								if ($input.prop('checked')){
-									$(classShow).show();
-								}else{
-								  $(classShow).hide();
-								}
+							<?
+							///ประเภทของแหล่งน้ำเค็ม
+							if(!empty($_POST['water_source_2'])){
+							?>							
+								<div class="form-group col-md-12"> <br/><h4>ประเภทของแหล่งน้ำเค็ม</h4>
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<TH width="5%" SCOPE="COL"></TH>
+												<TH width="20%" SCOPE="COL">INPUT</TH>
+												<TH width="15%" SCOPE="COL">VALUE</TH>
+												
+											</tr>
+										</thead>
+										<tbody>
+										<?
+										$countrow =1;
+										  foreach($_POST['water_source_2'] as $selected){
+											$selectedValue = explode("|", $selected);
+										?>
+											<tr>
+												<td ><?=$countrow++;?></td>
+												<td><?echo $selectedValue[1];?></td>
+												<td><?echo $selectedValue[0];?></td>
+												
+											</tr>
+										<?
+										 }
+										?>
+										</tbody>
+									</table>
+								</div>
+							<?
+							 }
+							///ประเภทของแหล่งน้ำเค็ม
+							?>
+							
+							<?
+							$species_fish = null;
+							if (!empty($_POST["watertype_f"]) && !empty($_POST["watertype_s"])) {
+								if(!empty($_POST["species_fish"]))
+									$species_fish =	$_POST["species_fish"];
+							}
+							else if (!empty($_POST["watertype_f"])) {
+								if(!empty($_POST["species_fish_f"]))
+									$species_fish =	$_POST["species_fish_f"];
+							}
+							else if (!empty($_POST["watertype_s"])) {
+								if(!empty($_POST["species_fish_s"]))
+									$species_fish =	$_POST["species_fish_s"];
 							}
 							
-						
-
-							</script>
-							<div class="form-group col-md-12 myClass" style="display: none;">
-                                <label>แหล่งน้ำจืด</label>
-                                <div class="input-checkbox">
-
-                                  <?php
-
-                                  $strSQL = 'SELECT * FROM `water_source` where `water_id` = 1 order by water_source_id';
-                                  $objQuery = mysqli_query($Connect, $strSQL);
-
-                                  while ($element = mysqli_fetch_assoc($objQuery)) {
-                                    echo '<input type="checkbox" name="water_source_1[]" value="'.$element['water_source_id'].'|'.$element['water_source_name'].'" id="'.$element['water_source_id'].'" >';
-                                    echo '<label class="font-weak" for="fishing_grounds0">'.$element['water_source_name'].'</label>  ';
-                                  }
-                                  ?>
-
-                                </div>
-								
-                            </div>
-
-							</br>
-                            <div class="form-group col-md-12">
-                                <label>ประเภทปลา</label>
-								<div class="chkflgA" style="display: none;">
-									<select multiple="multiple" size="10" name="species_fish[]">
-
-									  <?php
-
-									  $strSQL = 'SELECT * FROM fish_type order by fish_name';
-									  $objQuery = mysqli_query($Connect, $strSQL);
-
-									  while ($element = mysqli_fetch_assoc($objQuery)) {
-										   echo '<option value="'.$element["fish_id"].'|'.$element['fish_name'].'">'.$element["fish_name"].'</option>';
+							?>
+							
+														<?
+							///ประเภทของแหล่งน้ำเค็ม
+							if(!empty($species_fish)){
+							?>							
+								<div class="form-group col-md-12"> <br/><h4>ประเภทปลา</h4>
+									<table class="table table-bordered">
+										<thead>
+											<tr>
+												<TH width="5%" SCOPE="COL"></TH>
+												<TH width="20%" SCOPE="COL">INPUT</TH>
+												<TH width="15%" SCOPE="COL">VALUE</TH>
+												
+											</tr>
+										</thead>
+										<tbody>
+										<?
+										$countrow =1;
+										  foreach($species_fish as $selected){
+											$selectedValue = explode("|", $selected);
+										?>
+											<tr>
+												<td ><?=$countrow++;?></td>
+												<td><?echo $selectedValue[1];?></td>
+												<td><?echo $selectedValue[0];?></td>
+												
+											</tr>
+										<?
 										 }
-									  ?>
-									</select>
+										?>
+										</tbody>
+									</table>
 								</div>
-								
-								<div class="chkflgf" style="display: none;">
-									 <select multiple="multiple" size="10" name="species_fish_f[]" >
-
-									  <?php
-
-									  $strSQL = "SELECT * FROM fish_type where WaterID ='1' order by fish_name";
-									  $objQuery = mysqli_query($Connect, $strSQL);
-
-									  while ($element = mysqli_fetch_assoc($objQuery)) {
-										   echo '<option value="'.$element["fish_id"].'|'.$element['fish_name'].'">'.$element["fish_name"].'</option>';
-										 }
-									  ?>
-
-									</select>
-								</div>
-								
-								<div class="chkflgs" style="display: none;">
-									 <select multiple="multiple" size="10" name="species_fish_s[]" >
-
-									  <?php
-
-									  $strSQL = "SELECT * FROM fish_type where WaterID ='2' order by fish_name";
-									  $objQuery = mysqli_query($Connect, $strSQL);
-
-									  while ($element = mysqli_fetch_assoc($objQuery)) {
-										   echo '<option value="'.$element["fish_id"].'|'.$element['fish_name'].'">'.$element["fish_name"].'</option>';
-										 }
-									  ?>
-
-									</select>
-								</div>
-								
-                            </div>
-
+							<?
+							 }
+							///ประเภทของแหล่งน้ำเค็ม
+							?>
+							
                             <div class="form-group col-md-12">
                                 <div class="col-md-6 col-sm-6"><button type="reset" class="btn btn-warning">Clear</button></div>
                                 <div class="col-md-6 col-sm-6 text-right"><button type="submit" class="btn btn-success">Next</button></div>
@@ -653,9 +724,7 @@ $menu = 'registerAll';
 
             <script src="js/main.js"></script>
             <script>
-                  var demo1 = $('select[name="species_fish[]"]').bootstrapDualListbox();
-				  var demo1 = $('select[name="species_fish_f[]"]').bootstrapDualListbox();
-				  var demo1 = $('select[name="species_fish_s[]"]').bootstrapDualListbox();
+                                    var demo1 = $('select[name="species_fish[]"]').bootstrapDualListbox();
 
             </script>
 

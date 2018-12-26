@@ -172,8 +172,10 @@ print_r($_SESSION["itemcartID_line"]);
 									</div>
 									<?
 										if (!empty($valuelures->items)) {
+											$urllines = "location.href='reels.php';";
 									?>
-									<div class="text-right"><button type="submit" class="btn btn-success">Next</button></div>
+									
+									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urllines;?>">Next</button></div>
 									<?
 										}
 									?>
