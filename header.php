@@ -1,4 +1,4 @@
-        <header>
+   <header>
             <!-- header -->
             <div id="header">
                 <div class="container">
@@ -93,7 +93,7 @@
 															$urldel .= "&page=".$_GET['page'];
 														}
 													?>
-													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>&fn=lures'"><i class="fa fa-trash" ></i></button>
 												</div>
 										<?php
 													}
@@ -132,7 +132,7 @@
 															$urldel .= "&page=".$_GET['page'];
 														}
 													?>
-													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>&fn=line'"><i class="fa fa-trash" ></i></button>
 												</div>
 										<?php
 													}
@@ -170,7 +170,7 @@
 															$urldel .= "&page=".$_GET['page'];
 														}
 													?>
-													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>&fn=Reels'"><i class="fa fa-trash" ></i></button>
 												</div>
 										<?php
 													}
@@ -208,7 +208,7 @@
 															$urldel .= "&page=".$_GET['page'];
 														}
 													?>
-													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>'"><i class="fa fa-trash" ></i></button>
+													<button class="cancel-btn"onclick="location.href='delCart.php?delID=<?=$key.$urldel?>&fn=rod'"><i class="fa fa-trash" ></i></button>
 												</div>
 										<?php
 													}

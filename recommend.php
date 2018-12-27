@@ -1,4 +1,5 @@
 <?php
+//session_destroy();
 header('Content-Type: text/html; charset=utf-8');
 
 require("conf/config_Session.php");
@@ -19,9 +20,9 @@ if (isset($_SESSION['post-data'])) {
 		include("headScript.php");
 	?>
     <body>
-        <!-- HEADER -->       
+        <!-- HEADER -->
       	<?php
-			include("header.php");		
+			include("header.php");
 			include("navigation.php");
 		?>
         <!-- /HEADER -->
@@ -35,7 +36,7 @@ if (isset($_SESSION['post-data'])) {
                     <!-- section-title -->
                     <div class="col-md-12">
                         <div class="section-title">
-                            <h3 class="title">กรอกข้อมูลเพื่อหาอุปกรณ์ตกปลาที่เหมาะสม</h3>
+                            <h3 class="title">กรุณากรอกข้อมูลเพื่อหาอุปกรณ์ตกปลาที่เหมาะสม</h3>
 
                         </div>
                     </div>
@@ -118,7 +119,7 @@ if (isset($_SESSION['post-data'])) {
 									$(".chkflgs").show();
 								}
 							});
-							
+
 							function toggle(classShow,value, obj) {
 								var $input = $(obj);
 								if ($input.prop('checked')){
@@ -127,8 +128,8 @@ if (isset($_SESSION['post-data'])) {
 								  $(classShow).hide();
 								}
 							}
-							
-						
+
+
 
 							</script>
 							<div class="form-group col-md-12 myClass" style="display: none;">
@@ -147,7 +148,7 @@ if (isset($_SESSION['post-data'])) {
                                   ?>
 
                                 </div>
-								
+
                             </div>
 
 							</br>
@@ -167,7 +168,7 @@ if (isset($_SESSION['post-data'])) {
 									  ?>
 									</select>
 								</div>
-								
+
 								<div class="chkflgf" style="display: none;">
 									 <select multiple="multiple" size="10" name="species_fish_f[]" >
 
@@ -183,7 +184,7 @@ if (isset($_SESSION['post-data'])) {
 
 									</select>
 								</div>
-								
+
 								<div class="chkflgs" style="display: none;">
 									 <select multiple="multiple" size="10" name="species_fish_s[]" >
 
@@ -199,7 +200,7 @@ if (isset($_SESSION['post-data'])) {
 
 									</select>
 								</div>
-								
+
                             </div>
 
                             <div class="form-group col-md-12">

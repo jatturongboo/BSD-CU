@@ -1,4 +1,5 @@
 <?php
+$urlPage ="";
 require("conf/config_Session.php");
 include("AddToCartlures.php");
 ?>
@@ -9,28 +10,28 @@ include("AddToCartlures.php");
 	?>
     <body>
       	<?php
-			include("header.php");		
+			include("header.php");
 			include("navigation.php");
 		?>
         <!-- HOME -->
         <div id="home">
             <!-- container -->
-            <div class="container">			
+            <div class="container">
                 <!-- row -->
                 <div class="row">
-				
+
                     <!-- section-title -->
                     <div class="col-md-12">
                         <div class="section-title">
-                            <h3 class="title">เหยื่อปลอม (LURES)</h3>							
+                            <h3 class="title">เหยื่อปลอม (LURES)</h3>
                         </div>
-						
+
                     </div>
                     <!-- /section-title -->
-					
+
 					</br>
 					<!-- Body -->
-                    <div class="col-md-12">                       
+                    <div class="col-md-12">
 						<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 						<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 						<link href="css/pageProduct.css" rel="stylesheet" >
@@ -41,11 +42,12 @@ include("AddToCartlures.php");
 								$(document).ready(function() {
 									$('#list').click(function(event){event.preventDefault();$('#products .item').addClass('list-group-item');});
 									$('#grid').click(function(event){event.preventDefault();$('#products .item').removeClass('list-group-item');$('#products .item').addClass('grid-group-item');});
-																		
+
 								});
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
-							<?php 
+							<?php
+							if(isset($_GET['chk'])){
 									if($_GET['chk']== "checked"){
 										if (!empty($_SESSION['checklures_type'])) {
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
@@ -54,25 +56,29 @@ include("AddToCartlures.php");
 										}
 									}
 									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {										
+										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
 											if($key===false)
 												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-										}else{										
+										}else{
 											if (!empty($_GET['lures_type'])) {
 												$_SESSION["checklures_type"][]= $_GET['lures_type'];
 											}
 										}
-										
-									}
-									
-								if(!empty($_SESSION['checklures_type'])){
-									foreach($_SESSION['checklures_type'] as $key_type => $value_type){
-										$txt_type .= "".$value_type."|";
+
 									}
 								}
+								$txt_type="";
+								if(isset($_SESSION['checklures_type'])) {
+         if(!empty($_SESSION['checklures_type'])){
+          foreach($_SESSION['checklures_type'] as $key_type => $value_type){
+           $txt_type .= "".$value_type."|";
 
-								if(!empty($_SESSION['final_species_fish'])){
+          }
+         }
+        }
+					$txt_type_fish ="";
+								if(isset($_SESSION['final_species_fish'])){
 									foreach($_SESSION['final_species_fish'] as $key_type_fish => $value_type_fish){
 										$tmpvalue_type_fish = explode("|", $value_type_fish);
 										$txt_type_fish .= "".$tmpvalue_type_fish[0]."|";
@@ -80,22 +86,24 @@ include("AddToCartlures.php");
 								}
 
 							$pageNo = 1;
-							if (!empty($_GET['page'])) {
+							if (isset($_GET['page'])) {
 								$pageNo = $_GET['page'];
-							}							
-							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type='.$txt_type.'&sessionfish='.$txt_type_fish;
+							}
+
+							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type=&sessionfish='.$txt_type_fish;
+						//	$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type='.$txt_type.'&sessionfish='.$txt_type_fish;
 							//echo $urlget;
 
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
-							foreach ($jsonget as $valuelures) {					
+							foreach ($jsonget as $valuelures) {
 							?>
 							<!--! Bar -->
-							
+
 							<div id="sidebar">
-								<h4>ประเภทลักษณะรูปร่าง</h4>                   							
+								<h4>ประเภทลักษณะรูปร่าง</h4>
 								<ul>
-									<? 																	
+									<?
 									if($_GET['chk']== "checked"){
 										if (!empty($_SESSION['checklures_type'])) {
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
@@ -117,29 +125,29 @@ include("AddToCartlures.php");
 
 									foreach ($valuelures->lure_type1 as $luretype) {
 										$checked = "unChecked";
-										if (!empty($_SESSION['checklures_type'])){ 
-												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);											
-												
+										if (!empty($_SESSION['checklures_type'])){
+												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);
+
 												if($keysearchchk!==false){
 													$checked = "checked";
 											}
-										}											
+										}
 											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
 									?>
 										<li>
-										<label class="customcheck"><?=$luretype->lure_name_th?>										
-										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										<label class="customcheck"><?=$luretype->lure_name_th?>
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>
 										  <span class="checkmark"></span>
 										</label>
-										
+
 								</li>
 									<? } ?>
-								</ul>		
+								</ul>
 
-								<font size="2">	
+								<font size="2">
 									<label class="btn-primary" data-toggle="modal" data-target="#exampleModalType1">Read More...</label>
 								</font>
-								
+
 						<!-- Modal POPUP-->
 						<div class="modal fade" id="exampleModalType1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 							<div class="modal-dialog" role="document">
@@ -152,7 +160,7 @@ include("AddToCartlures.php");
 											<span aria-hidden="true">&times;</span>
 										</button>
 									</div>
-									<div class="modal-body">																	
+									<div class="modal-body">
 										<b>1.เหยื่อยาง</b>  ใช้การลาก หรือกระตุก เพื่อสร้างความสนใจ<br/>
 										<b>2.เหยื่อจิ๊ก</b>  เป็นแผ่นเหล็ก ใช้วิธีจิ๊ก หรือหยกขึ้นลง<br/>
 										<b>3.เหยื่อป๊อบเปอร์</b>  เหยื่อพวก ป๊อปเปอร์ ใช้ปากป๊อปน้ำสร้างความสนใจ<br/>
@@ -169,13 +177,13 @@ include("AddToCartlures.php");
 							</div>
 						</div>
 						<!-- Modal POPUP-->
-														
+
 							<h4>ประเภทลักษณะการใช้งาน</h4>
 							<ul>
-									<? 						
-									
+									<?
+
 									if($_GET['chk']== "checked"){ ///if($_GET['chk']== "checked"){ Check ว่า กดมาหรือป่าว ex URL :::: lures.php?lures_type=1&chk=Checked
-										if (!empty($_SESSION['checklures_type'])) { // Check ว่ามี Session หรือป่าว 
+										if (!empty($_SESSION['checklures_type'])) { // Check ว่ามี Session หรือป่าว
 											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);// เอา  $_GET['lures_type'] ไปหาใน Session ว่ามีไหม ?
 											if($key!==false){ //คือถ้ามีจะ unset Session ตาม Key
 												unset($_SESSION['checklures_type'][$key]);
@@ -197,22 +205,22 @@ include("AddToCartlures.php");
 
 									foreach ($valuelures->lure_type2 as $luretype) { //วน loop ตาม  Api http://localhost/Fishing_Equipment_Store/api/lures.php?page=1
 										$checked = "unChecked"; //เอาไว้ติ๊ก check box
-										if (!empty($_SESSION['checklures_type'])){ 
+										if (!empty($_SESSION['checklures_type'])){
 												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);
 												if($keysearchchk!==false){
 													$checked = "checked";
 												}
-										}											
+										}
 											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
 									?>
 										<li>
-											<label class="customcheck"><?=$luretype->lure_name_th?>										
-											<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+											<label class="customcheck"><?=$luretype->lure_name_th?>
+											<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>
 											  <span class="checkmark"></span>
 											</label>
 										</li>
 									<? } ?>
-								</ul>					
+								</ul>
 							<!------ Include Read More ---------->
 							<script>
 								$(document).ready(function () {
@@ -227,27 +235,27 @@ include("AddToCartlures.php");
 											}
 										});
 									});
-								});						
-							</script>	
+								});
+							</script>
 							<!------ Include Read More ---------->
 							</div>
 							<!--! Bar -->
-							
+
 							<div id="grids">
-								<div class="container" > 
+								<div class="container" >
 									<div class="well well-sm">
-										<strong>Category Title</strong>
+										<strong>View By</strong>
 										<div class="btn-group">
 											<a href="#" id="list" class="btn btn-default btn-sm"><span class="glyphicon glyphicon-th-list">
 											</span>List</a> <a href="#" id="grid" class="btn btn-default btn-sm"><span
 												class="glyphicon glyphicon-th"></span>Grid</a>
-										</div>										
+										</div>
 									</div>
 									<?
 										if (!empty($valuelures->items)) {
 											$urllines = "location.href='lines.php';";
 									?>
-									
+
 									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urllines;?>">Next</button></div>
 									<?
 										}
@@ -256,11 +264,11 @@ include("AddToCartlures.php");
 									<?php
 										$rownum = 1;
 										if (!empty($valuelures->items)) {
-											
+
 										foreach ($valuelures->items as $product) {
-										$ItemID = $product->lure_id;		
+										$ItemID = $product->lure_id;
 									?>
-								
+
 										<div class="item col-xs-4 col-lg-4 "  >
 											<div class="thumbnail">
 												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detaillures.php?id=<?=$ItemID?>','_blank');" />
@@ -275,7 +283,7 @@ include("AddToCartlures.php");
 														echo $product->description;
 													?>
 													<br>
-													
+
 													</p>
 													<div class="row">
 														<div class="col-xs-12 col-md-6">
@@ -294,17 +302,17 @@ include("AddToCartlures.php");
 															?>
 															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
-														
+
 													</div>
 												</div>
 											</div>
 										</div>
-										
+
 									</a>
-										<?php 
-											} 											
+										<?php
+											}
 										}
-										else{ 
+										else{
 												echo "      <h2>Not Found</h2>";
 											}
 										?>
@@ -331,7 +339,7 @@ include("AddToCartlures.php");
 												}
 												for($i; $i <=$calngv; $i++) {
 													if($i <= $valuelures->total_page) {
-														
+
 												?>
 												<li class="page-item <?=($pageNo == $i)?"active":""; ?>">
 													<a class="page-link" href="lures.php?page=<?=$i?>"><?=$i?></a>
@@ -353,19 +361,19 @@ include("AddToCartlures.php");
 									<!-- Page navigation -->
 								</div>
 							</div>
-							<?php 
+							<?php
 								}
 							?>
-						
+
                     </div>
 					<!-- Body -->
-					
+
                 </div>
 				 <!-- row -->
                 <!-- /container -->
             </div>
             <!-- /HOME -->
-			
+
             <!-- jQuery Plugins -->
             <script src="js/jquery.min.js"></script>
             <script src="js/jquery.bootstrap-duallistbox.js"></script>
@@ -379,7 +387,7 @@ include("AddToCartlures.php");
                  var demo1 = $('select[name="species_fish[]"]').bootstrapDualListbox();
             </script>
 			<!-- jQuery Plugins -->
-			
+
     </body>
 
 </html>
