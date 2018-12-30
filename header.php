@@ -66,10 +66,8 @@
                                         <div class="shopping-cart-list">
 										<?php
 											$sumPrice = 0;
-										if (!empty($_SESSION["itemcartID_lures"])){									
-											
+										if (!empty($_SESSION["itemcartID_lures"])){
 											$arr = array_count_values($_SESSION["itemcartID_lures"]);
-											
 											foreach ($arr as $key => $value) {												
 												$url2 = $REQUEST_URI.'api/luresDetail.php?id='.$key;
 												$content2 = file_get_contents($url2);	
@@ -148,13 +146,13 @@
 											
 											foreach ($arrReels as $key => $value) {												
 												$urlReels = $REQUEST_URI.'api/reelsDetail.php?id='.$key;
-												
+												//echo $urlReels;
 												$contentReels = file_get_contents($urlReels);	
 												$jsonReels = json_decode($contentReels);
 												foreach ($jsonReels as $valueReels) {
 													$rownum = 1;
 													foreach ($valueReels->items as $productReels) {	
-													$sumPrice += ($productReels->price* $value);												
+													$sumPrice += ($productReels->Price* $value);												
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 												<div class="product product-widget">
@@ -162,7 +160,7 @@
 														<img src="<?=$productReels->image;?>" alt="">
 													</div>
 												  <div class="product-body">
-														<h3 class="product-price">฿<?echo $productReels->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
+														<h3 class="product-price">฿<?echo $productReels->Price; ?> <span class="qty">x<?php echo $value;?></span></h3>
 														<h2 class="product-name"><a href="#"><?echo $productReels->Model; ?></a></h2>
 													</div>
 													<?
@@ -192,7 +190,7 @@
 												foreach ($jsonrod as $valuerod) {
 													$rownum = 1;
 													foreach ($valuerod->items as $productrod) {	
-													$sumPrice += ($productrod->price* $value);												
+													$sumPrice += ($productrod->Price* $value);												
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 												<div class="product product-widget">
@@ -200,7 +198,7 @@
 														<img src="<?=$productrod->image;?>" alt="">
 													</div>
 												  <div class="product-body">
-														<h3 class="product-price">฿<?echo $productrod->price; ?> <span class="qty">x<?php echo $value;?></span></h3>
+														<h3 class="product-price">฿<?echo $productrod->Price; ?> <span class="qty">x<?php echo $value;?></span></h3>
 														<h2 class="product-name"><a href="#"><?echo $productrod->Model; ?></a></h2>
 													</div>
 													<?
