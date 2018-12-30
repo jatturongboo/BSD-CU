@@ -45,31 +45,7 @@ include("AddToCartrod.php");
 								});
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
-							<?php 
- 									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checkrods_type'])) {
-											$key=array_search($_GET['rod_type'],$_SESSION['checkrods_type']);
-											if($key!==false)
-											unset($_SESSION['checkrods_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checkrods_type']) && $_GET['chk'] == 'unChecked') {										
-											$key=array_search($_GET['rod_type'],$_SESSION['checkrods_type']);
-											if($key===false)
-											$_SESSION["checkrods_type"][]= $_GET['rod_type'];
-										}else{										
-											if (!empty($_GET['rod_type'])) {
-												$_SESSION["checkrods_type"][]= $_GET['rod_type'];
-											}
-										}
-										
-									}
-								if (!empty($_SESSION['checkrods_type'])) {	
-									foreach($_SESSION['checkrods_type'] as $key_type => $value_type){
-										$txt_type .= "".$value_type."|";
-									}
-								}
+							<?php
 									
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
@@ -81,79 +57,7 @@ include("AddToCartrod.php");
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {	
 							?>
-							<!--! Bar -->
 							
-							<div id="sidebar">
-								<h3>ประเภทเบ็ด</h3>							
-									<ul>
-									<? 																	
-									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checkrods_type'])) {
-											$key=array_search($_GET['rod_type'],$_SESSION['checkrods_type']);
-											if($key!==false)
-											unset($_SESSION['checkrods_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checkrods_type']) && $_GET['chk'] == 'unChecked') {
-											//echo "1";
-											$key=array_search($_GET['rod_type'],$_SESSION['checkrods_type']);
-											if($key===false)
-											$_SESSION["checkrods_type"][]= $_GET['rod_type'];
-										}else{
-											//echo "2";
-											if (!empty($_GET['rod_type'])) {
-												$_SESSION["checkrods_type"][]= $_GET['rod_type'];
-											}
-										}
-									}
-
-									if (!empty($valuelures->rod_type)) {
-											foreach ($valuelures->rod_type as $luretype) {
-												$checked = "unChecked";
-												if (!empty($_SESSION['checkrods_type'])){
-														$keysearchchk=array_search($luretype->rod_type_id,$_SESSION['checkrods_type']);											
-														
-														if($keysearchchk!==false){
-															$checked = "checked";
-													}
-												}											
-													$urlcheckbox = "location.href='rods.php?rod_type=".$luretype->rod_type_id."&chk=".$checked."';";
-											?>
-										<li>
-											<label class="customcheck"><?=$luretype->rod_type_name?>										
-											<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->rod_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
-												<span class="checkmark"></span>
-											</label>
-
-										</li>
-									<? 
-										}
-									}
-									?>
-								</ul>
-							
-							<!------ Include Read More ---------->
-							<script>
-								$(document).ready(function () {
-									$('.nav-toggle').click(function () {
-										var collapse_content_selector = $(this).attr('href');
-										var toggle_switch = $(this);
-										$(collapse_content_selector).toggle(function () {
-											if ($(this).css('display') == 'none') {
-												toggle_switch.html('Read More');
-											} else {
-												toggle_switch.html('Read Less');
-											}
-										});
-									});
-								});						
-							</script>	
-							<!------ Include Read More ---------->
-							</div>
-							<!--! Bar -->
-							
-							<div id="grids">
 								<div class="container" > 
 									<div class="well well-sm">
 										<strong>Category Title</strong>
@@ -285,7 +189,7 @@ include("AddToCartrod.php");
 									?>
 									<!-- Page navigation -->
 								</div>
-							</div>
+						
 							<?php 
 								}
 							?>

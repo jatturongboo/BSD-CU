@@ -46,7 +46,31 @@ include("AddToCartReels.php");
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php 
-						
+									if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checkbrand_type'])) {
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
+											if($key!==false)
+											unset($_SESSION['checkbrand_type'][$key]);
+										}
+									}
+									else {
+										if (!empty($_SESSION['checkbrand_type']) && $_GET['chk'] == 'unChecked') {										
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
+											if($key===false)
+											$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
+										}else{										
+											if (!empty($_GET['brand_type'])) {
+												$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
+											}
+										}
+										
+									}
+									
+								if(!empty($_SESSION['checkbrand_type'])){
+									foreach($_SESSION['checkbrand_type'] as $key_type => $value_type){
+										$txt_type .= "".$value_type."|";
+									}
+								}
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
@@ -57,7 +81,74 @@ include("AddToCartReels.php");
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {					
 							?>
-									<div class="container" > 
+							<!--! Bar -->
+							
+							<div id="sidebar">
+								<h4>ประเภทลักษณะรูปร่าง</h4>							
+								<ul>
+									<? 																	
+									if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checkbrand_type'])) {
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
+											if($key!==false)
+											unset($_SESSION['checkbrand_type'][$key]);
+										}
+									}
+									else {
+										if (!empty($_SESSION['checkbrand_type']) && $_GET['chk'] == 'unChecked') {
+											$key=array_search($_GET['brand_type'],$_SESSION['checkbrand_type']);
+											if($key===false)
+											$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
+										}else{
+											if (!empty($_GET['brand_type'])) {
+												$_SESSION["checkbrand_type"][]= $_GET['brand_type'];
+											}
+										}
+									}
+
+									foreach ($valuelures->brand_type as $luretype) {
+										$checked = "unChecked";
+										if (!empty($_SESSION['checkbrand_type'])){ 
+												$keysearchchk=array_search($luretype->BRAND_ID,$_SESSION['checkbrand_type']);											
+												
+												if($keysearchchk!==false){
+													$checked = "checked";
+											}
+										}											
+											$urlcheckbox = "location.href='reels.php?brand_type=".$luretype->BRAND_ID."&chk=".$checked."';";
+									?>
+										<li>
+										<label class="customcheck"><?=$luretype->BRAND_NAME?>										
+										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->BRAND_ID?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+										  <span class="checkmark"></span>
+										</label>
+										
+								</li>
+									<? } ?>
+								</ul>		
+
+							<!------ Include Read More ---------->
+							<script>
+								$(document).ready(function () {
+									$('.nav-toggle').click(function () {
+										var collapse_content_selector = $(this).attr('href');
+										var toggle_switch = $(this);
+										$(collapse_content_selector).toggle(function () {
+											if ($(this).css('display') == 'none') {
+												toggle_switch.html('Read More');
+											} else {
+												toggle_switch.html('Read Less');
+											}
+										});
+									});
+								});						
+							</script>	
+							<!------ Include Read More ---------->
+							</div>
+							<!--! Bar -->
+							
+							<div id="grids">
+								<div class="container" > 
 									<div class="well well-sm">
 										<strong>Category Title</strong>
 										<div class="btn-group">
@@ -196,6 +287,7 @@ include("AddToCartReels.php");
 									?>
 									<!-- Page navigation -->
 								</div>
+							</div>
 							<?php 
 								}
 							?>

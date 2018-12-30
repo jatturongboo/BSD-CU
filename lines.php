@@ -48,31 +48,7 @@ include("AddToCartline.php");
 							</script>
 						
 							<?php									
-								if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checkline_type'])) {
-											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
-											if($key!==false)
-											unset($_SESSION['checkline_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checkline_type']) && $_GET['chk'] == 'unChecked') {										
-											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
-											if($key===false)
-											$_SESSION["checkline_type"][]= $_GET['line_type'];
-										}else{										
-											if (!empty($_GET['line_type'])) {
-												$_SESSION["checkline_type"][]= $_GET['line_type'];
-											}
-										}
-									}
-									
-								if(!empty($_SESSION['checkline_type'])){
-									foreach($_SESSION['checkline_type'] as $key_type => $value_type){
-										$txt_type .= "".$value_type."|";
-									}
-								}
-									
+																	
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
@@ -84,78 +60,10 @@ include("AddToCartline.php");
 							foreach ($jsonget as $valuelures) {			
 							?>
 							<!--! Bar -->
-							
-							<div id="sidebar">
-								<h3>ประเภทเอ็น</h3>							
-									<ul>
-									<? 																	
-									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checkline_type'])) {
-											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
-											if($key!==false)
-											unset($_SESSION['checkline_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checkline_type']) && $_GET['chk'] == 'unChecked') {
-											//echo "1";
-											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
-											if($key===false)
-											$_SESSION["checkline_type"][]= $_GET['line_type'];
-										}else{
-											//echo "2";
-											if (!empty($_GET['line_type'])) {
-												$_SESSION["checkline_type"][]= $_GET['line_type'];
-											}
-										}
-									}
 
-									if (!empty($valuelures->line_type)) {
-											foreach ($valuelures->line_type as $linetype) {
-												$checked = "unChecked";
-												if (!empty($_SESSION['checkline_type'])){
-														$keysearchchk=array_search($linetype->line_type_id,$_SESSION['checkline_type']);											
-														
-														if($keysearchchk!==false){
-															$checked = "checked";
-													}
-												}											
-													$urlcheckbox = "location.href='lines.php?line_type=".$linetype->line_type_id."&chk=".$checked."';";
-											?>
-										<li>
-												<label class="customcheck"><?=$linetype->line_type_name?>										
-												<input type="checkbox" class="custom-control-input" id="Check<?=$linetype->line_type?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
-												  <span class="checkmark"></span>
-												</label>
-											
-										</li>
-									<? 
-										}
-									}
-									?>
-								</ul>
-							
-							<!------ Include Read More ---------->
-							<script>
-								$(document).ready(function () {
-									$('.nav-toggle').click(function () {
-										var collapse_content_selector = $(this).attr('href');
-										var toggle_switch = $(this);
-										$(collapse_content_selector).toggle(function () {
-											if ($(this).css('display') == 'none') {
-												toggle_switch.html('Read More');
-											} else {
-												toggle_switch.html('Read Less');
-											}
-										});
-									});
-								});						
-							</script>	
-							<!------ Include Read More ---------->
-							</div>
 							<!--! Bar -->
 							
-							<div id="grids">
+							
 								<div class="container" > 
 									<div class="well well-sm">
 										<strong>Category Title</strong>
@@ -287,7 +195,7 @@ include("AddToCartline.php");
 									?>
 									<!-- Page navigation -->
 								</div>
-							</div>
+							
 							<?php 
 								}
 							?>

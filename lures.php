@@ -47,43 +47,6 @@ include("AddToCartlures.php");
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php
-							if(isset($_GET['chk'])){
-									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key===false)
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-										}else{
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-											}
-										}
-
-									}
-								}
-								$txt_type="";
-								if(isset($_SESSION['checklures_type'])) {
-         if(!empty($_SESSION['checklures_type'])){
-          foreach($_SESSION['checklures_type'] as $key_type => $value_type){
-           $txt_type .= "".$value_type."|";
-
-          }
-         }
-        }
-					$txt_type_fish ="";
-								if(isset($_SESSION['final_species_fish'])){
-									foreach($_SESSION['final_species_fish'] as $key_type_fish => $value_type_fish){
-										$tmpvalue_type_fish = explode("|", $value_type_fish);
-										$txt_type_fish .= "".$tmpvalue_type_fish[0]."|";
-									}
-								}
 
 							$pageNo = 1;
 							if (isset($_GET['page'])) {
@@ -91,157 +54,13 @@ include("AddToCartlures.php");
 							}
 
 							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type=&sessionfish='.$txt_type_fish;
-						//	$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type='.$txt_type.'&sessionfish='.$txt_type_fish;
+					
 							//echo $urlget;
 
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {
 							?>
-							<!--! Bar -->
-
-							<div id="sidebar">
-								<h4>ประเภทลักษณะรูปร่าง</h4>
-								<ul>
-									<?
-									if($_GET['chk']== "checked"){
-										if (!empty($_SESSION['checklures_type'])) {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key!==false)
-											unset($_SESSION['checklures_type'][$key]);
-										}
-									}
-									else {
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);
-											if($key===false)
-											$_SESSION["checklures_type"][]= $_GET['lures_type'];
-										}else{
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-											}
-										}
-									}
-
-									foreach ($valuelures->lure_type1 as $luretype) {
-										$checked = "unChecked";
-										if (!empty($_SESSION['checklures_type'])){
-												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);
-
-												if($keysearchchk!==false){
-													$checked = "checked";
-											}
-										}
-											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
-									?>
-										<li>
-										<label class="customcheck"><?=$luretype->lure_name_th?>
-										<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>
-										  <span class="checkmark"></span>
-										</label>
-
-								</li>
-									<? } ?>
-								</ul>
-
-								<font size="2">
-									<label class="btn-primary" data-toggle="modal" data-target="#exampleModalType1">Read More...</label>
-								</font>
-
-						<!-- Modal POPUP-->
-						<div class="modal fade" id="exampleModalType1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-							<div class="modal-dialog" role="document">
-								<div class="modal-content">
-									<div class="modal-header">
-										<h5 class="modal-title" id="exampleModalType1">
-											<h3>เหยื่อปลอม (LURES) แบ่งตามประเภทการใช้งาน</h3>
-										</h5>
-										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-											<span aria-hidden="true">&times;</span>
-										</button>
-									</div>
-									<div class="modal-body">
-										<b>1.เหยื่อยาง</b>  ใช้การลาก หรือกระตุก เพื่อสร้างความสนใจ<br/>
-										<b>2.เหยื่อจิ๊ก</b>  เป็นแผ่นเหล็ก ใช้วิธีจิ๊ก หรือหยกขึ้นลง<br/>
-										<b>3.เหยื่อป๊อบเปอร์</b>  เหยื่อพวก ป๊อปเปอร์ ใช้ปากป๊อปน้ำสร้างความสนใจ<br/>
-										<b>4.เหยื่อปลั๊ก</b>  คือเหยื่อที่เป็นตัวปลาแบ่งตามลักษณะของลิ้น ดำตื้น ดำลึก  แบ่งตามการลอย เช่นจม จมช้า ลอย  รวมทั้งแบบไม่มีลิ้น สร้างแอคชั่นด้วยการกระตุกให้เลื้อยซ้าย ขวา<br/>
-										<b>5.เหยื่อประเภทใบพริ้วน้ำ</b> เช่น สปูน<br/>
-										<b>6.เหยื่อใบหมุน</b> เช่น สปินเนอร์ สปินเนอร์เบท<br/>
-										<b>7.เหยื่อดำน้ำหน้าดิน</b> จำพวกกระดี่<br/>
-										<b>8.เหยื่อผิวน้ำ</b> จำพวก กบยาง กบไม้ หรือเหยื่อใบพัดต่าง ๆ<br/>
-									</div>
-									<div class="modal-footer">
-										<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- Modal POPUP-->
-
-							<h4>ประเภทลักษณะการใช้งาน</h4>
-							<ul>
-									<?
-
-									if($_GET['chk']== "checked"){ ///if($_GET['chk']== "checked"){ Check ว่า กดมาหรือป่าว ex URL :::: lures.php?lures_type=1&chk=Checked
-										if (!empty($_SESSION['checklures_type'])) { // Check ว่ามี Session หรือป่าว
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);// เอา  $_GET['lures_type'] ไปหาใน Session ว่ามีไหม ?
-											if($key!==false){ //คือถ้ามีจะ unset Session ตาม Key
-												unset($_SESSION['checklures_type'][$key]);
-											}
-										}
-									}
-									else { //ถ้าเป็น unChecked แสดงว่ากดเลือก   lures.php?lures_type=1&chk=unChecked
-										if (!empty($_SESSION['checklures_type']) && $_GET['chk'] == 'unChecked') {
-											$key=array_search($_GET['lures_type'],$_SESSION['checklures_type']);// เอา  $_GET['lures_type'] ไปหาใน Session ว่ามีไหม ?
-											if($key===false){ //ถ้าไม่มีก็เอาไปเก็บใน  Session
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-											}
-										}else{//อันนี้ดัก Case อื่นๆ ที่ ไม่ได้ตก
-											if (!empty($_GET['lures_type'])) {
-												$_SESSION["checklures_type"][]= $_GET['lures_type'];
-											}
-										}
-									}
-
-									foreach ($valuelures->lure_type2 as $luretype) { //วน loop ตาม  Api http://localhost/Fishing_Equipment_Store/api/lures.php?page=1
-										$checked = "unChecked"; //เอาไว้ติ๊ก check box
-										if (!empty($_SESSION['checklures_type'])){
-												$keysearchchk=array_search($luretype->lure_type_id,$_SESSION['checklures_type']);
-												if($keysearchchk!==false){
-													$checked = "checked";
-												}
-										}
-											$urlcheckbox = "location.href='lures.php?lures_type=".$luretype->lure_type_id."&chk=".$checked."';";
-									?>
-										<li>
-											<label class="customcheck"><?=$luretype->lure_name_th?>
-											<input type="checkbox" class="custom-control-input" id="Check<?=$luretype->lure_type_id?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>
-											  <span class="checkmark"></span>
-											</label>
-										</li>
-									<? } ?>
-								</ul>
-							<!------ Include Read More ---------->
-							<script>
-								$(document).ready(function () {
-									$('.nav-toggle').click(function () {
-										var collapse_content_selector = $(this).attr('href');
-										var toggle_switch = $(this);
-										$(collapse_content_selector).toggle(function () {
-											if ($(this).css('display') == 'none') {
-												toggle_switch.html('Read More');
-											} else {
-												toggle_switch.html('Read Less');
-											}
-										});
-									});
-								});
-							</script>
-							<!------ Include Read More ---------->
-							</div>
-							<!--! Bar -->
-
-							<div id="grids">
 								<div class="container" >
 									<div class="well well-sm">
 										<strong>View By</strong>
@@ -360,7 +179,7 @@ include("AddToCartlures.php");
 									?>
 									<!-- Page navigation -->
 								</div>
-							</div>
+						
 							<?php
 								}
 							?>

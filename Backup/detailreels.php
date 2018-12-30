@@ -19,15 +19,15 @@
   <body>
 	<?php 
 	
-	$url = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$_GET['id'];
-	
+	$url = 'http://localhost/Fishing_Equipment_Store/api/reelsDetail.php?id='.$_GET['id'];
+	//echo $url;
 	$content = file_get_contents($url);	
 	$json = json_decode($content);
 	
 	foreach ($json as $value) {
 		$rownum = 1;
 		foreach ($value->items as $product) {
-		$ItemID = $product->lure_id;		
+		$ItemID = $product->id;		
 				
 	?>
 	<div class="container">
@@ -37,7 +37,7 @@
 					<div class="preview col-md-6">
 						
 						<div class="preview-pic tab-content">
-						  <div class="tab-pane active" id="pic-1"><img src="<?=$product->image;?>" /></div>
+						  <div class="tab-pane active" id="pic-1"><img src="<?=$product->Images;?>" /></div>
 						  <div class="tab-pane" id="pic-2"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-3"><img src="http://placekitten.com/400/252" /></div>
 						  <div class="tab-pane" id="pic-4"><img src="http://placekitten.com/400/252" /></div>
@@ -50,13 +50,13 @@
 					<div class="details col-md-6">
 						<h3 class="product-title">
 						<?
-							echo $product->model;
+							echo $product->Model;
 						?>
 						</h3>
 
 						<p class="product-description">
 						<?
-							echo $product->description;
+							echo $product->Description;
 						?>
 						</p>
 						<h4 class="price">current price: <span>$<?echo $product->price; ?></span></h4>

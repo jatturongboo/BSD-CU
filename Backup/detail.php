@@ -19,7 +19,7 @@
   <body>
 	<?php 
 	
-	$url = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$_GET['id'];
+	$url = 'http://localhost/Fishing_Equipment_Storefinbak/api/luresDetail.php?id='.$_GET['id'];
 	
 	$content = file_get_contents($url);	
 	$json = json_decode($content);

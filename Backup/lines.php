@@ -1,6 +1,8 @@
 <?php
 require("conf/config_Session.php");
-include("AddToCartReels.php");
+include("AddToCartline.php");
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +24,7 @@ include("AddToCartReels.php");
                     <!-- section-title -->
                     <div class="col-md-12">
                         <div class="section-title">
-                            <h3 class="title">รอก (REELS)</h3>							
+                            <h3 class="title">เอ็น (lines)</h3>							
                         </div>
 						
                     </div>
@@ -30,8 +32,8 @@ include("AddToCartReels.php");
 					
 					</br>
 					<!-- Body -->
-                    <div class="col-md-12">                       
-						<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+                    <div class="col-md-12">
+                        <link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 						<script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
 						<link href="css/pageProduct.css" rel="stylesheet" >
 						<link href="css/pageProduct2.css" rel="stylesheet" />
@@ -44,20 +46,117 @@ include("AddToCartReels.php");
 																		
 								});
 							</script>
-						<!------ Include the above in your HEAD tag ---------->
-							<?php 
 						
+							<?php									
+								if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checkline_type'])) {
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
+											if($key!==false)
+											unset($_SESSION['checkline_type'][$key]);
+										}
+									}
+									else {
+										if (!empty($_SESSION['checkline_type']) && $_GET['chk'] == 'unChecked') {										
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
+											if($key===false)
+											$_SESSION["checkline_type"][]= $_GET['line_type'];
+										}else{										
+											if (!empty($_GET['line_type'])) {
+												$_SESSION["checkline_type"][]= $_GET['line_type'];
+											}
+										}
+									}
+									
+								if(!empty($_SESSION['checkline_type'])){
+									foreach($_SESSION['checkline_type'] as $key_type => $value_type){
+										$txt_type .= "".$value_type."|";
+									}
+								}
+									
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type;
+							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&session_line_type='.$txt_type;
 							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
-							foreach ($jsonget as $valuelures) {					
+							foreach ($jsonget as $valuelures) {			
 							?>
-									<div class="container" > 
+							<!--! Bar -->
+							
+							<div id="sidebar">
+								<h3>ประเภทเอ็น</h3>							
+									<ul>
+									<? 																	
+									if($_GET['chk']== "checked"){
+										if (!empty($_SESSION['checkline_type'])) {
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
+											if($key!==false)
+											unset($_SESSION['checkline_type'][$key]);
+										}
+									}
+									else {
+										if (!empty($_SESSION['checkline_type']) && $_GET['chk'] == 'unChecked') {
+											//echo "1";
+											$key=array_search($_GET['line_type'],$_SESSION['checkline_type']);
+											if($key===false)
+											$_SESSION["checkline_type"][]= $_GET['line_type'];
+										}else{
+											//echo "2";
+											if (!empty($_GET['line_type'])) {
+												$_SESSION["checkline_type"][]= $_GET['line_type'];
+											}
+										}
+									}
+
+									if (!empty($valuelures->line_type)) {
+											foreach ($valuelures->line_type as $linetype) {
+												$checked = "unChecked";
+												if (!empty($_SESSION['checkline_type'])){
+														$keysearchchk=array_search($linetype->line_type_id,$_SESSION['checkline_type']);											
+														
+														if($keysearchchk!==false){
+															$checked = "checked";
+													}
+												}											
+													$urlcheckbox = "location.href='lines.php?line_type=".$linetype->line_type_id."&chk=".$checked."';";
+											?>
+										<li>
+												<label class="customcheck"><?=$linetype->line_type_name?>										
+												<input type="checkbox" class="custom-control-input" id="Check<?=$linetype->line_type?>" onclick="<?=$urlcheckbox;?>" <?=$checked?>>									
+												  <span class="checkmark"></span>
+												</label>
+											
+										</li>
+									<? 
+										}
+									}
+									?>
+								</ul>
+							
+							<!------ Include Read More ---------->
+							<script>
+								$(document).ready(function () {
+									$('.nav-toggle').click(function () {
+										var collapse_content_selector = $(this).attr('href');
+										var toggle_switch = $(this);
+										$(collapse_content_selector).toggle(function () {
+											if ($(this).css('display') == 'none') {
+												toggle_switch.html('Read More');
+											} else {
+												toggle_switch.html('Read Less');
+											}
+										});
+									});
+								});						
+							</script>	
+							<!------ Include Read More ---------->
+							</div>
+							<!--! Bar -->
+							
+							<div id="grids">
+								<div class="container" > 
 									<div class="well well-sm">
 										<strong>Category Title</strong>
 										<div class="btn-group">
@@ -68,10 +167,10 @@ include("AddToCartReels.php");
 									</div>
 									<?
 										if (!empty($valuelures->items)) {
-											$urlNext = "location.href='rods.php';";
+											$urllines = "location.href='reels.php';";
 									?>
 									
-									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urlNext;?>">Next</button></div>
+									<div class="text-right"><button type="submit" class="btn btn-success" onclick="<?=$urllines;?>">Next</button></div>
 									<?
 										}
 									?>
@@ -81,21 +180,21 @@ include("AddToCartReels.php");
 										if (!empty($valuelures->items)) {
 											
 										foreach ($valuelures->items as $product) {
-										$ItemID = $product->id;		
+										$ItemID = $product->line_id;		
 									?>
 								
 										<div class="item col-xs-4 col-lg-4 "  >
 											<div class="thumbnail">
-												<img class="group list-group-image" src="<?=$product->Images;?>"  alt=""  onclick=" window.open('detailreels.php?id=<?=$ItemID?>','_blank');" />
+												<img class="group list-group-image" src="<?=$product->image;?>"  alt=""  onclick=" window.open('detaillines.php?id=<?=$ItemID?>','_blank');" />
 												<div class="caption">
 													<h4 class="group inner list-group-item-heading">
 													<?
-														echo $product->Model;
+														echo $product->model;
 													?>
 													</h4>
 													<p class="group inner list-group-item-text">
 													<?
-														echo $product->Description;
+														echo $product->description;
 													?>
 													<br>
 													<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label>
@@ -105,13 +204,13 @@ include("AddToCartReels.php");
 														  <div class="modal-dialog" role="document">
 															<div class="modal-content">
 															  <div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->Model?></h5>
+																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->model?></h5>
 																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 																  <span aria-hidden="true">&times;</span>
 																</button>
 															  </div>
 															  <div class="modal-body">
-																<?= $product->Description;?>
+																<?= $product->description;?>
 															  </div>
 															  <div class="modal-footer">
 																<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -125,7 +224,7 @@ include("AddToCartReels.php");
 														<div class="col-xs-12 col-md-6">
 															<p class="lead">
 															<?
-																echo "฿".$product->Price;
+																echo "฿".$product->price;
 															?>
 															</p>
 														</div>
@@ -134,16 +233,15 @@ include("AddToCartReels.php");
 															if (!empty($_GET['page'])) {
 																$urlPage .= "&page=".$_GET['page'];
 															}
-															$urlAdd = "location.href='reels.php?cart=".$product->Price."&id=".$ItemID.$urlPage."';";
+															$urlAdd = "location.href='lines.php?cart=1&id=".$ItemID."".$urlPage."';";
 															?>
-															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->Price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
+															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
 														
 													</div>
 												</div>
 											</div>
 										</div>
-										
 									</a>
 										<?php 
 											} 											
@@ -162,30 +260,23 @@ include("AddToCartReels.php");
 										<nav aria-label="Page navigation example">
 											<ul class="pagination justify-content-center">
 												<li class="page-item <?=($pageNo == 1)?"disabled":"";?>">
-													<a class="page-link" <?=($pageNo == 1)?"":'href="reels.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
+													<a class="page-link" <?=($pageNo == 1)?"":'href="lines.php?page='.($pageNo-1).'"';?> tabindex="-1">Previous</a>
 												</li>
 												<?
 												//echo $value->total_page;
-												$calngv = $pageNo;
-												$i = 1;
-												if($pageNo < 5){
-													$calngv = $pageNo+3;
-												}else {
-													$i = $pageNo-4;
-												}
-												for($i; $i <=$calngv; $i++) {
+												for($i =1; $i <= 3; $i++) {
 													if($i <= $valuelures->total_page) {
 														
 												?>
 												<li class="page-item <?=($pageNo == $i)?"active":""; ?>">
-													<a class="page-link" href="reels.php?page=<?=$i?>"><?=$i?></a>
+													<a class="page-link" href="lines.php?page=<?=$i?>"><?=$i?></a>
 												</li>
 												<?php
 													}
 												}
 												?>
 												<li class="page-item <?=($pageNo == $valuelures->total_page)?"disabled":"";?>">
-													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="reels.php?page='.($pageNo+1).'"';?>>Next</a>
+													<a class="page-link"<?=($pageNo == $valuelures->total_page)?"":'href="lines.php?page='.($pageNo+1).'"';?>>Next</a>
 												</li>
 											</ul>
 										</nav>
@@ -196,6 +287,7 @@ include("AddToCartReels.php");
 									?>
 									<!-- Page navigation -->
 								</div>
+							</div>
 							<?php 
 								}
 							?>

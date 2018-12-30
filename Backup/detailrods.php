@@ -19,15 +19,15 @@
   <body>
 	<?php 
 	
-	$url = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$_GET['id'];
-	
+	$url = 'http://localhost/Fishing_Equipment_Store/api/rodDetail.php?id='.$_GET['id'];
+	//echo $url;
 	$content = file_get_contents($url);	
 	$json = json_decode($content);
 	
 	foreach ($json as $value) {
 		$rownum = 1;
 		foreach ($value->items as $product) {
-		$ItemID = $product->lure_id;		
+		$ItemID = $product->rod_id;		
 				
 	?>
 	<div class="container">
@@ -50,16 +50,16 @@
 					<div class="details col-md-6">
 						<h3 class="product-title">
 						<?
-							echo $product->model;
+							echo $product->Model;
 						?>
 						</h3>
 
 						<p class="product-description">
 						<?
-							echo $product->description;
+							echo $product->Description;
 						?>
 						</p>
-						<h4 class="price">current price: <span>$<?echo $product->price; ?></span></h4>
+						<h4 class="price">current price: <span>$<?echo $product->Price; ?></span></h4>
 						
 					</div>
 					
