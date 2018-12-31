@@ -79,7 +79,7 @@ require("AddToCartlures.php");
 													</td>
 													<td data-th="Subtotal" class="text-center"><?=$sumPricelures?></td>
 													<td class="actions" data-th="">							
-														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>'"><i class="fa fa-trash-o"></i></button>								
+														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>&fn=lures'"><i class="fa fa-trash-o"></i></button>								
 													</td>
 												</tr>	
 																								
@@ -90,7 +90,7 @@ require("AddToCartlures.php");
 											}
 											?>
 												
-																						<?
+											<?
 											if (!empty($_SESSION["itemcartID_line"])){
 												
 												$arr = array_count_values($_SESSION["itemcartID_line"]);
@@ -107,7 +107,7 @@ require("AddToCartlures.php");
 														$sumPricevline += ($productvline->price * $value);												
 														
 											?>
-												<tr>
+											<tr>
 													<td data-th="Product">
 														<div class="row">
 															<div class="col-sm-2 hidden-xs"><img src="<?echo $productvline->image; ?>" alt="..." class="img-responsive"/></div>
@@ -123,7 +123,98 @@ require("AddToCartlures.php");
 													</td>
 													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
 													<td class="actions" data-th="">							
-														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>'"><i class="fa fa-trash-o"></i></button>								
+														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>&fn=line'"><i class="fa fa-trash-o"></i></button>								
+													</td>
+												</tr>	
+																								
+											<?php
+														}
+													}
+												}
+											}
+											?>
+											
+											
+											
+											<?
+											if (!empty($_SESSION["itemcartID_Reels"])){
+												
+												$arr = array_count_values($_SESSION["itemcartID_Reels"]);
+											
+												foreach ($arr as $key => $value) {
+													
+													$urlvline = $REQUEST_URI.'api/reelsDetail.php?id='.$key;
+													$contentvline = file_get_contents($urlvline);	
+													$jsonvline = json_decode($contentvline);
+												
+													foreach ($jsonvline as $valuevline) {
+														$rownum = 1;
+														foreach ($valuevline->items as $productvline){
+														$sumPricevline += ($productvline->price * $value);												
+														
+											?>
+												<tr>
+													<td data-th="Product">
+														<div class="row">
+															<div class="col-sm-2 hidden-xs"><img src="<?echo $productvline->Images; ?>" alt="..." class="img-responsive"/></div>
+															<div class="col-sm-10">
+																<h4 class="nomargin"><?echo $productvline->Model; ?></h4>
+																<p><?=$productvline->Description;?></p>
+															</div>
+														</div>
+													</td>
+													<td data-th="Price">฿<?=$productvline->Price?></td>
+													<td data-th="Quantity">
+														<input type="number" class="form-control text-center" value="<?=$value?>">
+													</td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
+													<td class="actions" data-th="">							
+														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>&fn=Reels'"><i class="fa fa-trash-o"></i></button>								
+													</td>
+												</tr>	
+																								
+											<?php
+														}
+													}
+												}
+											}
+											?>
+											
+											
+											<?
+											if (!empty($_SESSION["itemcartID_rod"])){
+												
+												$arr = array_count_values($_SESSION["itemcartID_rod"]);
+											
+												foreach ($arr as $key => $value) {
+													
+													$urlvline = $REQUEST_URI.'api/rodDetail.php?id='.$key;
+													$contentvline = file_get_contents($urlvline);	
+													$jsonvline = json_decode($contentvline);
+												
+													foreach ($jsonvline as $valuevline) {
+														$rownum = 1;
+														foreach ($valuevline->items as $productvline){
+														$sumPricevline += ($productvline->price * $value);												
+														
+											?>
+												<tr>
+													<td data-th="Product">
+														<div class="row">
+															<div class="col-sm-2 hidden-xs"><img src="<?echo $productvline->image; ?>" alt="..." class="img-responsive"/></div>
+															<div class="col-sm-10">
+																<h4 class="nomargin"><?echo $productvline->Model; ?></h4>
+																<p><?=$productvline->Description;?></p>
+															</div>
+														</div>
+													</td>
+													<td data-th="Price">฿<?=$productvline->Price?></td>
+													<td data-th="Quantity">
+														<input type="number" class="form-control text-center" value="<?=$value?>">
+													</td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
+													<td class="actions" data-th="">							
+														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>&fn=rod'"><i class="fa fa-trash-o"></i></button>								
 													</td>
 												</tr>	
 																								
