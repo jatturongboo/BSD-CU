@@ -56,6 +56,7 @@ $REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
                                     
 									<?php
 										$sumPrice = 0;
+										$num = 1;
 										if (!empty($_SESSION["itemcartID_lures"])){
 											$arr = array_count_values($_SESSION["itemcartID_lures"]);
 											foreach ($arr as $key => $value) {												
@@ -70,7 +71,7 @@ $REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 										 <tr>
-												<td>1</td>
+												<td><?=$num++;?></td>
 												<td><?=$product2->model; ?></td>
 												<td><?=$product2->model; ?></td>
 												<td><?=$value;?></td>
@@ -101,7 +102,7 @@ $REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 										 <tr>
-												<td>1</td>
+												<td><?=$num++;?></td>
 												<td><?=$product2->model; ?></td>
 												<td><?=$product2->model; ?></td>
 												<td><?=$value;?></td>
@@ -133,7 +134,7 @@ $REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 										 <tr>
-												<td>1</td>
+												<td><?=$num++;?></td>
 												<td><?=$product2->Model; ?></td>
 												<td><?=$product2->Model; ?></td>
 												<td><?=$value;?></td>
@@ -165,7 +166,7 @@ $REQUEST_URI ="http://" . $_SERVER['HTTP_HOST'] ."/Fishing_Equipment_Store/";
 													$_SESSION["sumPrice"] = $sumPrice;
 										?>
 										 <tr>
-												<td>1</td>
+												<td><?=$num++;?></td>
 												<td><?=$product2->Model; ?></td>
 												<td><?=$product2->Model; ?></td>
 												<td><?=$value;?></td>
