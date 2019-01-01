@@ -61,7 +61,7 @@ require("AddToCartlures.php");
 														$rownum = 1;
 														foreach ($value2->items as $product2){
 														$sumPricelures += ($product2->price * $value);												
-														
+														$sumPrice += $sumPricelures;
 											?>
 												<tr>
 													<td data-th="Product">
@@ -105,7 +105,7 @@ require("AddToCartlures.php");
 														$rownum = 1;
 														foreach ($valuevline->items as $productvline){
 														$sumPricevline += ($productvline->price * $value);												
-														
+														$sumPrice += $sumPricevline;
 											?>
 											<tr>
 													<td data-th="Product">
@@ -150,8 +150,8 @@ require("AddToCartlures.php");
 													foreach ($jsonvline as $valuevline) {
 														$rownum = 1;
 														foreach ($valuevline->items as $productvline){
-														$sumPricevline += ($productvline->price * $value);												
-														
+														$sumPriceReel += ($productvline->Price * $value);												
+														$sumPrice += $sumPriceReel;
 											?>
 												<tr>
 													<td data-th="Product">
@@ -167,7 +167,7 @@ require("AddToCartlures.php");
 													<td data-th="Quantity">
 														<input type="number" class="form-control text-center" value="<?=$value?>">
 													</td>
-													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPriceReel?></td>
 													<td class="actions" data-th="">							
 														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>&fn=Reels'"><i class="fa fa-trash-o"></i></button>								
 													</td>
@@ -195,8 +195,8 @@ require("AddToCartlures.php");
 													foreach ($jsonvline as $valuevline) {
 														$rownum = 1;
 														foreach ($valuevline->items as $productvline){
-														$sumPricevline += ($productvline->price * $value);												
-														
+														$sumPricerod += ($productvline->Price * $value);												
+														$sumPrice += $sumPricerod;
 											?>
 												<tr>
 													<td data-th="Product">
@@ -212,7 +212,7 @@ require("AddToCartlures.php");
 													<td data-th="Quantity">
 														<input type="number" class="form-control text-center" value="<?=$value?>">
 													</td>
-													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
+													<td data-th="Subtotal" class="text-center"><?=$sumPricerod?></td>
 													<td class="actions" data-th="">							
 														<button class="btn btn-danger btn-sm" onclick="location.href='delCartView.php?delID=<?=$key?>&fn=rod'"><i class="fa fa-trash-o"></i></button>								
 													</td>
@@ -228,13 +228,13 @@ require("AddToCartlures.php");
 											</tbody>
 											<tfoot>
 												<tr class="visible-xs">
-													<td class="text-center"><strong>Total <?=$sumPricelures+$sumPricevline;?></strong></td>
+													<td class="text-center"><strong>Total <?=$sumPrice;?></strong></td>
 												</tr>
 												<tr>
 													<td><a href="#" class="btn btn-warning"  onclick="window.history.go(-1); return false;"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
 													<td colspan="2" class="hidden-xs"></td>
-													<td class="hidden-xs text-center"><strong>Total <?=$sumPricelures+$sumPricevline;?></strong></td>
-													<td><a href="#" class="btn btn-success btn-block">Checkout <i class="fa fa-angle-right"></i></a></td>
+													<td class="hidden-xs text-center"><strong>Total <?=$sumPrice;?></strong></td>
+													<td><a href="#" class="btn btn-success btn-block" onclick="location.href='invoice.php'">Checkout <i class="fa fa-angle-right"></i></a></td>
 												</tr>
 											</tfoot>
 										</table>
