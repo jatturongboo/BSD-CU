@@ -219,7 +219,7 @@
                                         
 										<div class="shopping-cart-btns">
                                             <button class="main-btn" onclick="location.href='viewCart.php'">View Cart</button>
-                                            <button class="primary-btn" onclick="location.href='invoice.php'">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+                                            <button class="primary-btn" onclick="location.href='submitInvoice.php'">Checkout <i class="fa fa-arrow-circle-right"></i></button>
                                         </div>
                                     </div>
                                 </div>

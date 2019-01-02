@@ -16,6 +16,7 @@
 										</thead>
 										<tbody>
 										<?
+										  $x =1;
 										  $countrow =1;
 										  foreach($species_fish as $selected){								
 											$selectedValue = explode("|", $selected);
@@ -34,9 +35,10 @@
 												
 												}//while ($row = $result->fetch_assoc()) {
 													
-														
+												$x++;
+												$class = ($x%2 == 0)? 'bgcolor="#f7f7f7"': '';		
 										?>
-											<tr>											
+											<tr <?=$class?>>											
 												<td><?echo $selectedValue[1];?></td>
 												<td><?echo $selectedValue[0];?></td>
 												<td><?=$tmp_lure_name_th?></td>

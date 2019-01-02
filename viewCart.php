@@ -238,7 +238,7 @@ require("AddToCartlures.php");
 													<td><a href="#" class="btn btn-warning"  onclick="window.history.go(-1); return false;"><i class="fa fa-angle-left"></i> Continue Shopping</a></td>
 													<td colspan="2" class="hidden-xs"></td>
 													<td class="hidden-xs text-center"><strong>Total <?=$sumPrice;?></strong></td>
-													<td><a href="#" class="btn btn-success btn-block" onclick="location.href='invoice.php'">Checkout <i class="fa fa-angle-right"></i></a></td>
+													<td><a href="#" class="btn btn-success btn-block" onclick="location.href='submitInvoice.php'">Checkout <i class="fa fa-angle-right"></i></a></td>
 												</tr>
 											</tfoot>
 										</table>
