@@ -2,6 +2,8 @@
 $urlPage ="";
 require("conf/config_Session.php");
 include("AddToCartlures.php");
+	require("conf/config_mysqli.php");
+	mysqli_set_charset($Connect,"utf8");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -47,7 +49,15 @@ include("AddToCartlures.php");
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php
-
+							
+							$txt_type_fish ="";
+								if(isset($_SESSION['final_species_fish'])){
+									foreach($_SESSION['final_species_fish'] as $key_type_fish => $value_type_fish){
+										$tmpvalue_type_fish = explode("|", $value_type_fish);
+										$txt_type_fish .= "".$tmpvalue_type_fish[0]."|";
+									}
+								}
+								
 							$pageNo = 1;
 							if (isset($_GET['page'])) {
 								$pageNo = $_GET['page'];
@@ -55,7 +65,7 @@ include("AddToCartlures.php");
 
 							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type=&sessionfish='.$txt_type_fish;
 					
-							//echo $urlget;
+							echo $urlget;
 
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
@@ -102,6 +112,23 @@ include("AddToCartlures.php");
 														echo $product->description;
 													?>
 													<br>
+													<?													
+													if (!empty($product->lure_type)) {
+														$sql = "SELECT lure_name_th,description FROM `lure_type` ";
+														$sql .= "where lure_type_id = '".$product->lure_type."'";
+														
+														$result = $Connect->query($sql);
+														while ($row = $result->fetch_assoc()) {
+														?>
+														<h4>ประเภทเหยื่อ : <span><?echo $row["lure_name_th"]; ?></span></h4>
+														<?
+														if (!empty($row["description"])) { ?>
+														 <span>(<?echo $row["description"]; ?>)</span><br/>
+														<?							
+															}
+														}//while ($row = $result->fetch_assoc()) {
+													}//if (!empty($product->lure_type)) {
+													?>
 
 													</p>
 													<div class="row">
@@ -178,6 +205,10 @@ include("AddToCartlures.php");
 									}
 									?>
 									<!-- Page navigation -->
+									<?
+									include("filter.php");
+									include("filterfish.php");
+									?>
 								</div>
 						
 							<?php

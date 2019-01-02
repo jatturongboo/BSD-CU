@@ -193,6 +193,7 @@ include("AddToCartReels.php");
 									</form>
 									<?
 									}
+									include("filter.php");
 									?>
 									<!-- Page navigation -->
 								</div>

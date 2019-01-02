@@ -18,7 +18,7 @@
 		}
 		$sqllures = "SELECT * FROM lures ";
 		$sqllures .= "where qty > 0 ";
-		if (!empty($_GET['session_lure_type'])) {
+/* 		if (!empty($_GET['session_lure_type'])) {
 			$arr = explode("|",$_GET['session_lure_type']);
 			$sqlluresWhere = " AND lure_type in ( ";			
 			foreach( $arr as $key3 => $value3){
@@ -26,7 +26,7 @@
 				$sqlluresWhere .= "'".$value3."',";
 			}
 			$sqlluresWhere .= "'-99' ) ";
-		}
+		} */
 		
 		if (!empty($_GET['sessionfish'])) {
 			$arrfish = explode("|",$_GET['sessionfish']);

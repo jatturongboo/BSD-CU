@@ -1,5 +1,5 @@
 <?php
-//session_destroy();
+
 header('Content-Type: text/html; charset=utf-8');
 
 require("conf/config_Session.php");
@@ -11,6 +11,7 @@ $menu = 'registerAll';
 if (isset($_SESSION['post-data'])) {
 	unset($_SESSION['post-data']);
 }
+session_destroy();
 ?>
 
 <!DOCTYPE html>

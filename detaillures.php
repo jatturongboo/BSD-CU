@@ -18,9 +18,9 @@
 
   <body>
 	<?php 
-	
+	require("conf/config_Session.php");
 	$url = 'http://localhost/Fishing_Equipment_Store/api/luresDetail.php?id='.$_GET['id'];
-	
+	//echo $url;
 	$content = file_get_contents($url);	
 	$json = json_decode($content);
 	
@@ -60,10 +60,71 @@
 						?>
 						</p>
 						<h4 class="price">current price: <span>$<?echo $product->price; ?></span></h4>
+						<?
+						require("conf/config_mysqli.php");
+						mysqli_set_charset($Connect,"utf8");
+					  
+						if (!empty($product->brand_id)) {
+							$sql = "SELECT BRAND_NAME FROM `brand` ";
+							$sql .= "where BRAND_ID = '".$product->brand_id."'";
+							
+							$result = $Connect->query($sql);
+							while ($row = $result->fetch_assoc()) {
+						?>
+						<h4>BRANDN: <span><?echo $row["BRAND_NAME"]; ?></span></h4>
+						<?							
+							}
+						}
+						
+						if (!empty($product->lure_type)) {
+							$sql = "SELECT lure_name_th,description FROM `lure_type` ";
+							$sql .= "where lure_type_id = '".$product->lure_type."'";
+							
+							$result = $Connect->query($sql);
+							while ($row = $result->fetch_assoc()) {
+							?>
+							<h4>ประเภทเหยื่อ : <span><?echo $row["lure_name_th"]; ?></span></h4>
+							<?
+							if (!empty($row["description"])) { ?>
+							 <span>(<?echo $row["description"]; ?>)</span><br/>
+							<?							
+								}
+							}//while ($row = $result->fetch_assoc()) {
+						}//if (!empty($product->lure_type)) {
+						?>
+						
+						<p class="product-description">ขนาดของเหยื่อ :
+						<?
+							echo $product->lenght;
+						?>
+						</p>
+						
+						<?
+						if (!empty($product->running_depth)) {
+						?>
+						<p class="product-description">การจมน้ำของเหยื่อ :
+						<?
+							echo $product->running_depth;
+						?>
+						</p>
+						<?
+						}
+						?>
+						
+						
+						<p class="product-description">น้ำหนักของเหยื่อ :
+						<?
+							echo $product->weight;
+						?>
+						</p>
+						
 						
 					</div>
 					
 				</div>
+				<br/>
+				
+				
 			</div>
 		</div>
 	</div>

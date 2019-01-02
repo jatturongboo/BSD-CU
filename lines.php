@@ -192,6 +192,8 @@ include("AddToCartline.php");
 									</form>
 									<?
 									}
+									
+									include("filter.php");
 									?>
 									<!-- Page navigation -->
 								</div>
