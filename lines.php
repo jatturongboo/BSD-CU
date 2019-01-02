@@ -2,6 +2,20 @@
 require("conf/config_Session.php");
 include("AddToCartline.php");
 
+$waterlet = "100";
+$watertype_f = "";
+
+if (!empty($_SESSION["post-data"]["watertype_f"])) {
+  $watertype_f =  $_SESSION["post-data"]["watertype_f"];
+  $waterlet = "100";
+}
+
+
+$watertype_s = "";
+if (!empty($_SESSION["post-data"]["watertype_s"])) {
+  $watertype_s =  $_SESSION["post-data"]["watertype_s"];
+  $waterlet = "200";
+}
 
 ?>
 <!DOCTYPE html>
@@ -47,14 +61,22 @@ include("AddToCartline.php");
 								});
 							</script>
 						
-							<?php									
+							<?php
+
+							$txt_type_fish ="";
+								if(isset($_SESSION['final_species_fish'])){
+									foreach($_SESSION['final_species_fish'] as $key_type_fish => $value_type_fish){
+										$tmpvalue_type_fish = explode("|", $value_type_fish);
+										$txt_type_fish .= "".$tmpvalue_type_fish[0]."|";
+									}
+								}							
 																	
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&session_line_type='.$txt_type;
-							//echo $urlget;
+							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&sessionfish='.$txt_type_fish.'&lenght='.$waterlet;
+							echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {			

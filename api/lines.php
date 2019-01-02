@@ -18,28 +18,23 @@
 		}
 		$sqllures = "SELECT * FROM `lines` ";
 		$sqllures .= "where 1=1 ";
-		if (!empty($_GET['session_line_type'])) {
-			$arr = explode("|",$_GET['session_line_type']);
-			$sqlluresWhere = " AND line_type_id in ( ";			
-			foreach( $arr as $key3 => $value3){
-				if (!empty($value3))
-				$sqlluresWhere .= "'".$value3."',";
-			}
-			$sqlluresWhere .= "'-99' ) ";
-		}
 		
 		if (!empty($_GET['sessionfish'])) {
 			$arrfish = explode("|",$_GET['sessionfish']);
-			$sqlluresWherefish = " AND fish_id in ( ";			
+			$sqlluresWherefish = " fish_id in ( ";
 			foreach( $arrfish as $keyfish => $valuefish){
 				if (!empty($valuefish))
 				$sqlluresWherefish .= "'".$valuefish."',";
 			}			
 			$sqlluresWherefish .= "'-99' ) ";
-			$sqlfishfilter = " AND lure_type in (SELECT lure_type_id FROM fish_type_ref where 1=1 " .$sqlluresWherefish .")"; 
+			
+			$sqlfishfilter = " AND `strenght_kg` between (SELECT min(`line_rang_min`) FROM `fish_type` where " .$sqlluresWherefish .") and (SELECT max(`line_rang_max`) FROM `fish_type` where " .$sqlluresWherefish .") "; 
 		}else{
 			$sqlfishfilter = " AND line_type_id = 1 AND size between 1.5 and 2.00";
 		}
+		
+		//line 
+		$sqlfishfilter = " AND LENGHT >=".$_GET['lenght'];
 		
 		$sqllures .= $sqlluresWhere;
 		$sqllures .= $sqlfishfilter;

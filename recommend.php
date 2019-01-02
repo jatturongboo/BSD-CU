@@ -80,14 +80,16 @@ session_destroy();
             </div>
             <div class="form-group col-md-12">
                <label>ประเภทของแหล่งน้ำ ?</label>
-               <div class="input-checkbox">
-                   <input type="checkbox" name="watertype_f" value="Y" onclick="toggle('.myClass',1, this)" id="watertype_f" class="chkbox">
-                   <label class="font-weak" for="experience0">น้ำจืด</label> &nbsp;&nbsp;
-                   <input type="checkbox" name="watertype_s" value="Y" onclick="toggle('.myClass1',2, this)" id="watertype_s" class="chkbox">
-                   <label class="font-weak" for="experience1">น้ำเค็ม</label>
-               </div>
+		   
+			     <div class="input-checkbox">
+                   <input type="radio" name="watertype_f" value="Y" onclick="toggle('.myClass',1, this)" id="watertype_f" class="chkbox myClass1">
+                    <label class="font-weak" for="experience0">น้ำจืด</label> &nbsp;&nbsp;
+                    <input type="radio" name="watertype_s" value="Y" onclick="toggle('.myClass1',2, this)" id="watertype_s" class="chkbox myClass">
+                    <label class="font-weak" for="experience1">น้ำเค็ม</label>
+                </div>
+			   
            </div>
-                            <div class="form-group col-md-12 myClass1" style="display: none;">
+                            <div class="form-group col-md-12 myClass1 chkflgs" style="display: none;">
                                 <label>แหล่งน้ำเค็ม</label>
                                 <div class="input-checkbox">
 
@@ -97,7 +99,7 @@ session_destroy();
                                   $objQuery = mysqli_query($Connect, $strSQL);
 
                                   while ($element = mysqli_fetch_assoc($objQuery)) {
-                                    echo '<input type="checkbox" name="water_source_2[]" value="'.$element['water_source_id'].'|'.$element['water_source_name'].'" id="'.$element['water_source_id'].'" >';
+                                    echo '<input class ="clrchk_s" type="checkbox" name="water_source_2[]" value="'.$element['water_source_id'].'|'.$element['water_source_name'].'" id="'.$element['water_source_id'].'" >';
                                     echo ' <label class="font-weak" for="fishing_grounds0">'.$element['water_source_name'].'</label>';
                                   }
                                   ?>
@@ -115,25 +117,32 @@ session_destroy();
 								}
 								else if ($( "#watertype_f" ).prop('checked')){
 									$(".chkflgf").show();
+									$('.clrchk_f').removeAttr('checked');
 								}
 								else if ($( "#watertype_s" ).prop('checked')){
 									$(".chkflgs").show();
+									$('.clrchk_s').removeAttr('checked');
 								}
 							});
 
 							function toggle(classShow,value, obj) {
 								var $input = $(obj);
+								$(".chkflgA").hide();
+								$(".chkflgf").hide();
+								$(".chkflgs").hide();
 								if ($input.prop('checked')){
-									$(classShow).show();
-								}else{
-								  $(classShow).hide();
+									$(classShow).prop("checked", false);
+									$(classShow).show();									
+								}else{									
+								  $(classShow).hide();								 
+								  $(classShow).prop("checked", false);								 
 								}
 							}
 
 
 
 							</script>
-							<div class="form-group col-md-12 myClass" style="display: none;">
+							<div class="form-group col-md-12 myClass chkflgf" style="display: none;">
                                 <label>แหล่งน้ำจืด</label>
                                 <div class="input-checkbox">
 
@@ -143,7 +152,7 @@ session_destroy();
                                   $objQuery = mysqli_query($Connect, $strSQL);
 
                                   while ($element = mysqli_fetch_assoc($objQuery)) {
-                                    echo '<input type="checkbox" name="water_source_1[]" value="'.$element['water_source_id'].'|'.$element['water_source_name'].'" id="'.$element['water_source_id'].'" >';
+                                    echo '<input class ="clrchk_f" type="checkbox" name="water_source_1[]" value="'.$element['water_source_id'].'|'.$element['water_source_name'].'" id="'.$element['water_source_id'].'" >';
                                     echo '<label class="font-weak" for="fishing_grounds0">'.$element['water_source_name'].'</label>  ';
                                   }
                                   ?>
