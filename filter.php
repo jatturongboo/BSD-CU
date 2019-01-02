@@ -102,7 +102,7 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 							</tr>
 						</thead>
 						<tbody>
-							<tr>
+							<tr bgcolor="#f7f7f7">
 								<th scope="row">1</th>
 								<td>งบประมาณ</td>
 								<td><?=$budgetvalue;?></td>
@@ -118,7 +118,7 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 								<td/>
 								<td/>
 							</tr>
-							<tr>
+							<tr bgcolor="#f7f7f7">
 								<th scope="row">3</th>
 								<td>ระดับประสบการณ์</td>
 								<td><?=$expvalue;?></td>
@@ -131,15 +131,15 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 								<td>ประเภทของแหล่งน้ำจืด</td>
 								<td><?=$watertype_f;?></td>
 								<td><?=$waterf_txt;?></td>
-								<td/>
+								<td><?=(!empty($watertype_f))?"สายเบ็ดจะต้องมีความยาวบรรจุอยู่ในหลอดเก็บไม่น้อยกว่า 100 เมตร":"";?> </td>
 								<td/>
 							</tr>
-							<tr>
+							<tr bgcolor="#f7f7f7">
 								<th scope="row">5</th>
 								<td>ประเภทของแหล่งน้ำเค็ม</td>
 								<td><?=$watertype_s;?></td>
 								<td><?=$waters_txt;?></td>
-								<td/>
+								<td><?=(!empty($watertype_s))?"สายเบ็ดจะต้องมีความยาวบรรจุอยู่ในหลอดเก็บไม่น้อยกว่า 200 เมตร":"";?> </td>
 								<td/>
 							</tr>
 						</tbody>

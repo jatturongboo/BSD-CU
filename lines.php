@@ -76,7 +76,7 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 								$pageNo = $_GET['page'];
 							}							
 							$urlget = $REQUEST_URI.'/api/lines.php?page='.$pageNo.'&sessionfish='.$txt_type_fish.'&lenght='.$waterlet;
-							echo $urlget;
+							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
 							foreach ($jsonget as $valuelures) {			
@@ -125,31 +125,29 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 													<p class="group inner list-group-item-text">
 													<?
 														echo $product->description;
-													?>
-													<br>
-													<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label>
+													?>													
+												<!--<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label> --->
 
-														<!-- Modal POPUP-->
-														<div class="modal fade" id="exampleModal<?=$ItemID?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-														  <div class="modal-dialog" role="document">
-															<div class="modal-content">
-															  <div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->model?></h5>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																  <span aria-hidden="true">&times;</span>
-																</button>
-															  </div>
-															  <div class="modal-body">
-																<?= $product->description;?>
-															  </div>
-															  <div class="modal-footer">
-																<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															  </div>
-															</div>
-														  </div>
-														</div>
-														<!-- Modal POPUP-->
+													<?
+														require("conf/config_mysqli.php");
+														mysqli_set_charset($Connect,"utf8");
+													if (!empty($product->line_type_id)) {
+														$sqlline = "SELECT line_type_name,line_type_desc FROM `line_type` ";
+														$sqlline .= "where line_type_id = '".$product->line_type_id."'";
+														
+														$resultline = $Connect->query($sqlline);
+														while ($rowline = $resultline->fetch_assoc()) {
+														?>
+														<h4>ประเภทสาย: <span><?echo $rowline["line_type_name"]; ?></span></h4>
+														<?
+														}//while ($row = $result->fetch_assoc()) {
+													}//if (!empty($product->lure_type)) {
+													?>
 													</p>
+													ความยาว :
+													<?
+														echo $product->lenght;
+													?>
 													<div class="row">
 														<div class="col-xs-12 col-md-6">
 															<p class="lead">
@@ -160,10 +158,18 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 														</div>
 														<div class="col-xs-12 col-md-6">
 															<?
+															$urlPage ="";
 															if (!empty($_GET['page'])) {
-																$urlPage .= "&page=".$_GET['page'];
+																$urlPage = "&page=".$_GET['page'];
 															}
-															$urlAdd = "location.href='lines.php?cart=1&id=".$ItemID."".$urlPage."';";
+															if($waterlet>$product->lenght){
+																$urlAdd = "location.href='lines.php?cart=1&id=".$ItemID."".$urlPage."&loop=".ceil($waterlet/$product->lenght)."';";
+																
+															}
+															else {
+																$urlAdd = "location.href='lines.php?cart=1&id=".$ItemID."".$urlPage."';";
+															}
+															
 															?>
 															<a class="btn btn-success cd-add-to-cart" data-price="<?=$product->price?>"  onclick="<?=$urlAdd;?>" href="#0" > เลือก </a>
 														</div>
@@ -216,6 +222,7 @@ if (!empty($_SESSION["post-data"]["watertype_s"])) {
 									}
 									
 									include("filter.php");
+									include("filterfishType.php");
 									?>
 									<!-- Page navigation -->
 								</div>

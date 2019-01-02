@@ -18,7 +18,7 @@
 
   <body>
 	<?php 
-	
+
 	$url = 'http://localhost/Fishing_Equipment_Store/api/lineDetail.php?id='.$_GET['id'];
 	//echo $url;
 	$content = file_get_contents($url);	
@@ -60,6 +60,50 @@
 						?>
 						</p>
 						<h4 class="price">current price: <span>$<?echo $product->price; ?></span></h4>
+												
+						<p class="product-description">diameter :
+						<?
+							echo $product->diameter;
+						?> mm.
+						</p>
+						
+						<p class="product-description">แรงดึงสาย :
+						<?
+							echo $product->strenght_kg;
+						?> kg
+						</p>
+						
+						<p class="product-description">เบอร์ :
+						<?
+							echo $product->size;
+						?>
+						</p>
+						
+						<p class="product-description">ความยาว :
+						<?
+							echo $product->lenght;
+						?>
+						</p>
+						
+						<?
+							require("conf/config_mysqli.php");
+							mysqli_set_charset($Connect,"utf8");
+						if (!empty($product->line_type_id)) {
+							$sql = "SELECT line_type_name,line_type_desc FROM `line_type` ";
+							$sql .= "where line_type_id = '".$product->line_type_id."'";
+							
+							$result = $Connect->query($sql);
+							while ($row = $result->fetch_assoc()) {
+							?>
+							<h4>ประเภทสาย: <span><?echo $row["line_type_name"]; ?></span></h4>
+							<?
+							if (!empty($row["line_type_desc"])) { ?>
+							 <span>(<?echo $row["line_type_desc"]; ?>)</span><br/>
+							<?							
+								}
+							}//while ($row = $result->fetch_assoc()) {
+						}//if (!empty($product->lure_type)) {
+						?>
 						
 					</div>
 					

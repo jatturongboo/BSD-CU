@@ -5,9 +5,15 @@
 if (!empty($_SESSION["itemcartID_lures"])){
 	print_r(array_count_values($_SESSION["itemcartID_lures"]));
 } */
-if (!empty($_GET['cart'])) {		
-	$_SESSION["itemcartID_line"][]= $_GET['id'];
-	
+if (!empty($_GET['cart'])) {
+	if (!empty($_GET['loop'])) {
+		for($iloop=1;$iloop<=$_GET['loop'];$iloop++)
+		{
+			$_SESSION["itemcartID_line"][]= $_GET['id'];
+		}
+	}else{
+		$_SESSION["itemcartID_line"][]= $_GET['id'];
+	}
 	$urlAddtoCart =  $location."/Fishing_Equipment_Store/lines.php";
 	if (!empty($_GET['page'])) {
 		$urlAddtoCart .= "?page=".$_GET['page'];

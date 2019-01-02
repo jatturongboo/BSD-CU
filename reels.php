@@ -46,12 +46,23 @@ include("AddToCartReels.php");
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php 
-						
+							$txt_handle ="";
+							
+							if (!empty($_SESSION["post-data"]["choosehand"])) {
+								$txt_handle =$_SESSION["post-data"]["choosehand"];
+								if($txt_handle=="LH"){
+									$txt_handle ="Right";
+								}else if($txt_handle=="RH"){
+									$txt_handle ="Left";
+								}else{
+									$txt_handle ="";
+								}
+							}
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type;
+							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type.'&handle='.$txt_handle;
 							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
@@ -97,29 +108,8 @@ include("AddToCartReels.php");
 													<?
 														echo $product->Description;
 													?>
-													<br>
-													<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label>
+													<br>													
 
-														<!-- Modal POPUP-->
-														<div class="modal fade" id="exampleModal<?=$ItemID?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-														  <div class="modal-dialog" role="document">
-															<div class="modal-content">
-															  <div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->Model?></h5>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																  <span aria-hidden="true">&times;</span>
-																</button>
-															  </div>
-															  <div class="modal-body">
-																<?= $product->Description;?>
-															  </div>
-															  <div class="modal-footer">
-																<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															  </div>
-															</div>
-														  </div>
-														</div>
-														<!-- Modal POPUP-->
 													</p>
 													<div class="row">
 														<div class="col-xs-12 col-md-6">

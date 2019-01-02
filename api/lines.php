@@ -34,10 +34,11 @@
 		}
 		
 		//line 
-		$sqlfishfilter = " AND LENGHT >=".$_GET['lenght'];
+		$sqlfishfilter_LENGHT = " AND LENGHT >=".$_GET['lenght'];
 		
 		$sqllures .= $sqlluresWhere;
 		$sqllures .= $sqlfishfilter;
+		$sqllures .= $sqlfishfilter_LENGHT;
 		$sqllures .= " limit ". $start.",".$end;
 		//echo $sqllures;
 		$result = $Connect->query($sqllures);
@@ -45,7 +46,8 @@
 		$rowluress[] = $rowlures;
 		}
 	   
-		$sqlluresTotal = "SELECT count(line_id) as total FROM `lines` where 1=1 ". $sqlluresWhere ." ".$sqlfishfilter;
+		$sqlluresTotal = "SELECT count(line_id) as total FROM `lines` where 1=1 ". $sqlluresWhere ." ".$sqlfishfilter." ".$sqlfishfilter_LENGHT;
+		//echo $sqlluresTotal;
 		$resultTotal = $Connect->query($sqlluresTotal);
 		while ($rowTotal = $resultTotal->fetch_assoc()) {
 			$rowsTotal = $rowTotal["total"];
@@ -69,10 +71,18 @@
 				}';
 		}
 		else {
+			$sqlluresfinal = "SELECT * FROM `lines` where 1=1 ". $sqlluresWhere ." ".$sqlfishfilter." order by `lenght` desc";
+			//echo $sqlluresTotal;
+			$resultfinal = $Connect->query($sqlluresfinal);
+			while ($rowfinal = $resultfinal->fetch_assoc()) {
+					$rowluress[] = $rowfinal;
+					 break;
+			}
 			$output2= '{
 				"result": {				
-						"total_size" : "'.$rowsTotal.'",
-						"total_page" : "'.$totalpage.'",						
+						"total_size" : "1",
+						"total_page" : "1",
+						"items": '.json_encode($rowluress).',						
 						"line_type": '.json_encode($rowsType).'	
 					}
 				}';

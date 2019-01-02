@@ -41,6 +41,10 @@
 			//$sqlfishfilter = " AND weight between 5 and 15 ";
 		} */
 		
+		if (!empty($_GET['handle'])) {
+			$sqlfishfilter = " AND Handle in('".$_GET['handle']."','Both') ";
+		}
+		
 		$sqllures .= $sqlluresWhere;
 		$sqllures .= $sqlfishfilter;
 		$sqllures .= " limit ". $start.",".$end;

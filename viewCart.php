@@ -75,7 +75,8 @@ require("AddToCartlures.php");
 													</td>
 													<td data-th="Price">฿<?=$product2->price?></td>
 													<td data-th="Quantity">
-														<input type="number" class="form-control text-center" value="<?=$value?>">
+														<!--<input type="number" class="form-control text-center" value="<?=$value?>">-->
+														<?=$value?>
 													</td>
 													<td data-th="Subtotal" class="text-center"><?=$sumPricelures?></td>
 													<td class="actions" data-th="">							
@@ -119,7 +120,8 @@ require("AddToCartlures.php");
 													</td>
 													<td data-th="Price">฿<?=$productvline->price?></td>
 													<td data-th="Quantity">
-														<input type="number" class="form-control text-center" value="<?=$value?>">
+														<!--<input type="number" class="form-control text-center" value="<?=$value?>">-->
+														<?=$value?>
 													</td>
 													<td data-th="Subtotal" class="text-center"><?=$sumPricevline?></td>
 													<td class="actions" data-th="">							
@@ -165,7 +167,8 @@ require("AddToCartlures.php");
 													</td>
 													<td data-th="Price">฿<?=$productvline->Price?></td>
 													<td data-th="Quantity">
-														<input type="number" class="form-control text-center" value="<?=$value?>">
+														<!--<input type="number" class="form-control text-center" value="<?=$value?>">-->
+														<?=$value?>
 													</td>
 													<td data-th="Subtotal" class="text-center"><?=$sumPriceReel?></td>
 													<td class="actions" data-th="">							
@@ -210,7 +213,8 @@ require("AddToCartlures.php");
 													</td>
 													<td data-th="Price">฿<?=$productvline->Price?></td>
 													<td data-th="Quantity">
-														<input type="number" class="form-control text-center" value="<?=$value?>">
+														<!--<input type="number" class="form-control text-center" value="<?=$value?>">-->
+														<?=$value?>
 													</td>
 													<td data-th="Subtotal" class="text-center"><?=$sumPricerod?></td>
 													<td class="actions" data-th="">							

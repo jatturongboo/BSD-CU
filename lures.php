@@ -65,7 +65,7 @@ include("AddToCartlures.php");
 
 							$urlget = $REQUEST_URI.'api/lures.php?page='.$pageNo.'&session_lure_type=&sessionfish='.$txt_type_fish;
 					
-							echo $urlget;
+							//echo $urlget;
 
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);

@@ -110,8 +110,7 @@
 						<?
 						}
 						?>
-						
-						
+											
 						<p class="product-description">น้ำหนักของเหยื่อ :
 						<?
 							echo $product->weight;
