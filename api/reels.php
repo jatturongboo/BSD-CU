@@ -41,6 +41,17 @@
 			//$sqlfishfilter = " AND weight between 5 and 15 ";
 		} */
 		
+		 if (!empty($_GET['size'])) {
+			$arrfish = explode("|",$_GET['size']);
+			$sqlluresWherefish = " AND line_lb in ( ";			
+			foreach( $arrfish as $keyfish => $valuefish){
+				if (!empty($valuefish))
+				$sqlluresWherefish .= "'".$valuefish."',";
+			}			
+			$sqlluresWherefish .= "'-99' ) ";
+			$sqlfishfilter = $sqlluresWherefish; 
+		}
+		
 		if (!empty($_GET['handle'])) {
 			$sqlfishfilter = " AND Handle in('".$_GET['handle']."','Both') ";
 		}

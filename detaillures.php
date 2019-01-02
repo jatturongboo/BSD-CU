@@ -71,7 +71,7 @@
 							$result = $Connect->query($sql);
 							while ($row = $result->fetch_assoc()) {
 						?>
-						<h4>BRANDN: <span><?echo $row["BRAND_NAME"]; ?></span></h4>
+						<h4>BRAND: <span><?echo $row["BRAND_NAME"]; ?></span></h4>
 						<?							
 							}
 						}

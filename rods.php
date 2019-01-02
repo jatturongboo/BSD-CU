@@ -46,12 +46,71 @@ include("AddToCartrod.php");
 							</script>
 						<!------ Include the above in your HEAD tag ---------->
 							<?php
-									
+							
+							if (!empty($_SESSION["post-data"]["exp"])) {
+								$txt_exp =$_SESSION["post-data"]["exp"];
+								if($txt_exp=="N"){
+									$txt_exp ="1";
+								}else if($txt_exp=="Y"){
+									$txt_exp ="2";
+								}else{
+									$txt_exp ="";
+								}
+							}
+							
+							$txt_luresweight ="";
+							if (!empty($_SESSION["itemcartID_lures"])){
+									$user = "root";
+									$pass = "";
+									$dbname = "fishing_equipment_store";
+									$Connect = mysqli_connect($host,$user,$pass,$dbname) or die(mysqli_error());								
+									mysqli_set_charset($Connect,"utf8");
+									$sqlsize ="";									
+									$arr = array_count_values($_SESSION["itemcartID_lures"]);
+									foreach ($arr as $key => $value) {									
+										$sqlsize .= "'".$key."',";
+									}			
+									$sqlsize .= "'-99' ) ";
+								
+									$tmpsql = "SELECT distinct weight as weight FROM `lures` WHERE `lure_id` in (".$sqlsize;
+									//echo $tmpsql;
+									$tmpresult = $Connect->query($tmpsql);
+									while ($tmprow = $tmpresult->fetch_assoc()) {
+										$txt_luresweight .= "".$tmprow['weight']."|";											
+												
+									}//while ($row = $result->fetch_assoc()) {
+													
+							}	
+							
+/* 							$txt_lineweight ="";
+							if (!empty($_SESSION["itemcartID_line"])){
+									$user = "root";
+									$pass = "";
+									$dbname = "fishing_equipment_store";
+									$Connect = mysqli_connect($host,$user,$pass,$dbname) or die(mysqli_error());								
+									mysqli_set_charset($Connect,"utf8");
+									$sqlsize ="";									
+									$arr = array_count_values($_SESSION["itemcartID_line"]);
+									foreach ($arr as $key => $value) {									
+										$sqlsize .= "'".$key."',";
+									}			
+									$sqlsize .= "'-99' ) ";
+								
+									$tmpsql = "SELECT distinct weight as weight FROM `lines` WHERE `line_id` in (".$sqlsize;
+									//echo $tmpsql;
+									$tmpresult = $Connect->query($tmpsql);
+									while ($tmprow = $tmpresult->fetch_assoc()) {
+										//$txt_luresweight .= "".$tmprow['weight']."|";											
+												
+									}//while ($row = $result->fetch_assoc()) {
+													
+							}	 */
+							
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'/api/rods.php?page='.$pageNo.'&session_rods_type='.$txt_type;
+							$urlget = $REQUEST_URI.'/api/rods.php?page='.$pageNo.'&luresweight='.$txt_luresweight.'&exp='.$txt_exp;
 							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);
@@ -99,28 +158,7 @@ include("AddToCartrod.php");
 														echo $product->Description;
 													?>
 													<br>
-													<label class="btn-primary" data-toggle="modal" data-target="#exampleModal<?=$ItemID?>">เพิ่มเติม...</label>
-
-														<!-- Modal POPUP-->
-														<div class="modal fade" id="exampleModal<?=$ItemID?>" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-														  <div class="modal-dialog" role="document">
-															<div class="modal-content">
-															  <div class="modal-header">
-																<h5 class="modal-title" id="exampleModalLabel<?=$ItemID?>">ประโยชน์ ของ<?=$product->Model?></h5>
-																<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-																  <span aria-hidden="true">&times;</span>
-																</button>
-															  </div>
-															  <div class="modal-body">
-																<?= $product->Description;?>
-															  </div>
-															  <div class="modal-footer">
-																<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-															  </div>
-															</div>
-														  </div>
-														</div>
-														<!-- Modal POPUP-->
+	
 													</p>
 													<div class="row">
 														<div class="col-xs-12 col-md-6">

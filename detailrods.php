@@ -61,6 +61,59 @@
 						</p>
 						<h4 class="price">current price: <span>$<?echo $product->Price; ?></span></h4>
 						
+						<?
+						require("conf/config_mysqli.php");
+						mysqli_set_charset($Connect,"utf8");
+					  
+						if (!empty($product->BRAND_ID)) {
+							$sql = "SELECT BRAND_NAME FROM `brand` ";
+							$sql .= "where BRAND_ID = '".$product->BRAND_ID."'";
+							
+							$result = $Connect->query($sql);
+							while ($row = $result->fetch_assoc()) {
+						?>
+						<h4>BRAND: <span><?echo $row["BRAND_NAME"]; ?></span></h4>
+						<?							
+							}
+						}
+						?>
+						
+						<p class="product-description"> Lenght :
+						<?
+							echo $product->Lenght;
+						?>
+						</p>
+						
+						<p class="product-description"> section :
+						<?
+							echo $product->section;
+						?>
+						</p>
+						
+						<p class="product-description"> Guide :
+						<?
+							echo $product->Guide;
+						?>
+						</p>
+						
+						<p class="product-description"> 
+						<?
+							if (!empty($product->Type)) {
+							$sql = "SELECT rod_type_name FROM `rod_type` ";
+							$sql .= "where rod_type_id = '".$product->Type."'";
+							
+							$result = $Connect->query($sql);
+							while ($row = $result->fetch_assoc()) {
+							?>
+							<h4>Type: <span><?echo $row["rod_type_name"]; ?></span></h4>
+							<?							
+								}
+							}
+							?>
+
+						</p>	
+
+						
 					</div>
 					
 				</div>

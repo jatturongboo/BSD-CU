@@ -58,11 +58,38 @@ include("AddToCartReels.php");
 									$txt_handle ="";
 								}
 							}
+							
+								$txt_size ="";
+								$host = "localhost";								
+								
+								if (!empty($_SESSION["itemcartID_line"])){
+									$user = "root";
+									$pass = "";
+									$dbname = "fishing_equipment_store";
+									$Connect = mysqli_connect($host,$user,$pass,$dbname) or die(mysqli_error());								
+									mysqli_set_charset($Connect,"utf8");
+									$sqlsize ="";									
+									$arr = array_count_values($_SESSION["itemcartID_line"]);
+									foreach ($arr as $key => $value) {									
+										$sqlsize .= "'".$key."',";
+									}			
+									$sqlsize .= "'-99' ) ";
+								
+									$tmpsql = "SELECT distinct size as sizes FROM `lines` WHERE `line_id` in (".$sqlsize;
+									//echo $tmpsql;
+									$tmpresult = $Connect->query($tmpsql);
+									while ($tmprow = $tmpresult->fetch_assoc()) {
+										$txt_size .= "".$tmprow['sizes']."|";											
+												
+									}//while ($row = $result->fetch_assoc()) {
+													
+								}					
+													
 							$pageNo = 1;
 							if (!empty($_GET['page'])) {
 								$pageNo = $_GET['page'];
 							}							
-							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type.'&handle='.$txt_handle;
+							$urlget = $REQUEST_URI.'api/reels.php?page='.$pageNo.'&session_brand_id='.$txt_type.'&handle='.$txt_handle.'&size='.$txt_size;
 							//echo $urlget;
 							$contentget = file_get_contents($urlget);
 							$jsonget = json_decode($contentget);

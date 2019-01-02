@@ -18,7 +18,7 @@
 		}
 		$sqllures = "SELECT * FROM rods ";
 		$sqllures .= "where 1=1 ";
-		if (!empty($_GET['session_rods_type'])) {
+/* 		if (!empty($_GET['session_rods_type'])) {
 			$arr = explode("|",$_GET['session_rods_type']);
 			$sqlluresWhere = " AND Type in ( ";			
 			foreach( $arr as $key3 => $value3){
@@ -26,21 +26,11 @@
 				$sqlluresWhere .= "'".$value3."',";
 			}
 			$sqlluresWhere .= "'-99' ) ";
-		}
+		} */
 		
-/* 		if (!empty($_GET['sessionfish'])) {
-			$arrfish = explode("|",$_GET['sessionfish']);
-			$sqlluresWherefish = " AND fish_id in ( ";			
-			foreach( $arrfish as $keyfish => $valuefish){
-				if (!empty($valuefish))
-				$sqlluresWherefish .= "'".$valuefish."',";
-			}			
-			$sqlluresWherefish .= "'-99' ) ";
-			$sqlfishfilter = " AND Type in (SELECT lure_type_id FROM fish_type_ref where 1=1 " .$sqlluresWherefish .")"; 
-		}else{
-			$sqlfishfilter = " AND weight between 5 and 15 ";
+		if (!empty($_GET['exp'])) {			
+			$sqlluresWhere = " AND Type = '".$_GET['exp']."'";
 		}
-		//echo $sqlluresWhere; */
 
 		$sqllures .= $sqlluresWhere;
 		$sqllures .= $sqlfishfilter;

@@ -59,7 +59,81 @@
 							echo $product->Description;
 						?>
 						</p>
-						<h4 class="price">current price: <span>$<?echo $product->price; ?></span></h4>
+						<h4 class="price">current price: <span>$<?echo $product->Price; ?></span></h4>
+						<?
+						require("conf/config_mysqli.php");
+						mysqli_set_charset($Connect,"utf8");
+					  
+						if (!empty($product->BRAND_ID)) {
+							$sql = "SELECT BRAND_NAME FROM `brand` ";
+							$sql .= "where BRAND_ID = '".$product->BRAND_ID."'";
+							
+							$result = $Connect->query($sql);
+							while ($row = $result->fetch_assoc()) {
+						?>
+						<h4>BRAND: <span><?echo $row["BRAND_NAME"]; ?></span></h4>
+						<?							
+							}
+						}
+						?>
+						<p class="product-description"> มือข้างที่ถนัด :
+						<?
+						function getHand($value) {
+
+							  switch ($value) {
+								  case 'Left':
+									  $text = "มือซ้าย";
+									  Return $text;
+									  break;
+								  case 'Right':
+									  $text = "มือขวา";
+									  Return $text;
+									  break;
+								  default:
+									  $text = "ทั้งสองข้าง"; Return $text; }
+							}
+
+							echo getHand($product->Handle);
+							
+						?>
+						</p>
+						
+						<p class="product-description">Ratio:
+						<?
+							echo $product->Ratio;
+						?>
+						</p>
+						
+						<p class="product-description">Bearing:
+						<?
+							echo $product->Bearing;
+						?>
+						</p>
+						
+						
+						<p class="product-description">Wt_oz:
+						<?
+							echo $product->Wt_oz;
+						?>
+						</p>
+						
+						<p class="product-description">wt_g:
+						<?
+							echo $product->wt_g;
+						?>
+						</p>
+						
+						<p class="product-description">line_g:
+						<?
+							echo $product->line_g;
+						?>
+						</p>
+						
+						<p class="product-description">MaxDrag:
+						<?
+							echo $product->MaxDrag;
+						?>
+						</p>
 						
 					</div>
 					
